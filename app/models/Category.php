@@ -22,6 +22,21 @@ class Category extends Model
 
     static function hasSubCategories($id)
     {
-        return self::where('sub_cat', $id)->count() > 0;
+        return Category::where('sub_cat', $id)->count() > 0;
+    }
+
+    static function getCategoryById($id)
+    {
+        return Category::where('id', $id)->first();
+    }
+
+    static function getCountSubCategories($id)
+    {
+        $subCategories = Category::where('sub_cat', $id)->get();
+        $count = 0;
+        foreach ($subCategories as $subCategory) {
+            $count += Product::where('category_id', $subCategory->id)->count();
+        }
+        return $count;
     }
 }

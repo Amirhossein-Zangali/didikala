@@ -122,7 +122,7 @@ use \didishop\models\Category;
                     </button>
                     <div class="side-menu">
                         <div class="logo-nav-res dt-sl text-center">
-                            <a href="#">
+                            <a href="/">
                                 <img src="assets/img/logo.png" alt="logo">
                             </a>
                         </div>
