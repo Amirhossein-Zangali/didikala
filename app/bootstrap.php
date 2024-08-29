@@ -3,9 +3,9 @@ session_start();
 require_once '../vendor/autoload.php';
 require_once 'config/config.php';
 
-use Illuminate\Database\Capsule\Manager as Capsule;
-
 date_default_timezone_set(TIMEZONE);
+
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 $capsule = new Capsule;
 

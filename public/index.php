@@ -1,7 +1,3 @@
-<?php
-require_once "../app/bootstrap.php";
-?>
-
 <?php include '../app/views/inc/header.php';?>
     <!-- Start main-content -->
     <main class="main-content dt-sl mt-4 mb-3">
