@@ -142,180 +142,52 @@ include '../app/views/inc/header.php';
                     <div class="col-12">
                         <div class="section-title text-sm-title title-wide no-after-title-wide">
                             <h2>فروش ویژه ها</h2>
-                            <a href="#">مشاهده همه</a>
+                            <a href="product/">مشاهده همه</a>
                         </div>
                     </div>
 
                     <!-- Start Product-Slider -->
-                    <div class="col-12">
-                        <div class="product-carousel carousel-lg owl-carousel owl-theme">
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
+                    <div class="col-12 px-res-0">
+                        <div class="product-carousel carousel-md owl-carousel owl-theme">
+                            <?php
+                            $products = (new Product())->getTopDiscountProducts();
+                            foreach ($products as $product) :
+                                ?>
+                                <div class="item">
+                                    <div class="product-card">
+                                        <div class="product-head">
+                                            <div class="rating-stars">
+                                                <?php
+                                                // TODO: show rating
+                                                ?>
+                                                <i class="mdi mdi-star active"></i>
+                                                <i class="mdi mdi-star active"></i>
+                                                <i class="mdi mdi-star active"></i>
+                                                <i class="mdi mdi-star active"></i>
+                                                <i class="mdi mdi-star active"></i>
+                                            </div>
+                                            <?php if (Product::hasDiscount($product->id)): ?>
+                                                <div class="discount">
+                                                    <span><?= $product->discount_percent ?>%</span>
+                                                </div>
+                                            <?php endif;?>
                                         </div>
-                                        <div class="discount">
-                                            <span>20%</span>
+                                        <a class="product-thumb" href="product/<?= $product->id ?>">
+                                            <img src="./<?= $product->thumbnail ?>" alt="Product Thumbnail">
+                                        </a>
+                                        <div class="product-card-body">
+                                            <h5 class="product-title">
+                                                <a href="product/<?= $product->id ?>"><?= $product->title ?></a>
+                                            </h5>
+                                            <a class="product-meta" href="product/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
+                                            <?php if ($product->discount_percent > 0):?>
+                                                <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
+                                            <?php endif;?>
+                                            <span class="product-price d-inline"><?= Product::getSalePrice($product->id) ?> تومان</span>
                                         </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/07.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">مانتو زنانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
-                                        <span class="product-price">157,000 تومان</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/017.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">کت مردانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس مردانه</a>
-                                        <span class="product-price">199,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/013.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">مانتو زنانه مدل هودی تیک تین</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
-                                        <span class="product-price">135,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/09.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">مانتو زنانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
-                                        <span class="product-price">145,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/010.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">مانتو زنانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
-                                        <span class="product-price">170,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                        <div class="discount">
-                                            <span>20%</span>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/011.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">مانتو زنانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس زنانه</a>
-                                        <span class="product-price">185,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="product-card mb-3">
-                                    <div class="product-head">
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                    </div>
-                                    <a class="product-thumb" href="shop-single.html">
-                                        <img src="./assets/img/products/019.jpg" alt="Product Thumbnail">
-                                    </a>
-                                    <div class="product-card-body">
-                                        <h5 class="product-title">
-                                            <a href="shop-single.html">تیشرت مردانه</a>
-                                        </h5>
-                                        <a class="product-meta" href="shop-categories.html">لباس مردانه</a>
-                                        <span class="product-price">54,000 تومان</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php endforeach;?>
                         </div>
                     </div>
                     <!-- End Product-Slider -->
@@ -324,292 +196,65 @@ include '../app/views/inc/header.php';
             </section>
             <!-- End Product-Slider -->
 
-            <!-- Start Feature-Product -->
-            <section class="dt-sl dt-sn mb-5">
-                <div class="row">
+            <!-- Start Product-Slider -->
+            <section class="slider-section dt-sl mb-5">
+                <div class="row mb-3">
                     <div class="col-12">
                         <div class="section-title text-sm-title title-wide no-after-title-wide">
                             <h2>جدید ترین ها</h2>
+                            <a href="product/">مشاهده همه</a>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-12 pt-4">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card-horizontal-product">
-                                    <div class="card-horizontal-product-thumb">
-                                        <a href="#">
-                                            <img src="./assets/img/products/017.jpg" alt="">
+
+                    <!-- Start Product-Slider -->
+                    <div class="col-12 px-res-0">
+                        <div class="product-carousel carousel-md owl-carousel owl-theme">
+                            <?php
+                            $products = (new Product())->getProducts();
+                            foreach ($products as $product) :
+                                ?>
+                                <div class="item">
+                                    <div class="product-card">
+                                        <div class="product-head">
+                                            <div class="rating-stars">
+                                                <?php
+                                                // TODO: show rating
+                                                ?>
+                                                <i class="mdi mdi-star active"></i>
+                                                <i class="mdi mdi-star active"></i>
+                                                <i class="mdi mdi-star active"></i>
+                                                <i class="mdi mdi-star active"></i>
+                                                <i class="mdi mdi-star active"></i>
+                                            </div>
+                                            <?php if (Product::hasDiscount($product->id)): ?>
+                                                <div class="discount">
+                                                    <span><?= $product->discount_percent ?>%</span>
+                                                </div>
+                                            <?php endif;?>
+                                        </div>
+                                        <a class="product-thumb" href="product/<?= $product->id ?>">
+                                            <img src="./<?= $product->thumbnail ?>" alt="Product Thumbnail">
                                         </a>
-                                    </div>
-                                    <div class="card-horizontal-product-content">
-                                        <div class="card-horizontal-product-title">
-                                            <a href="#">
-                                                <h3>کت مردانه مجلسی مدل k-m-5110</h3>
-                                            </a>
-                                        </div>
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                        <div class="card-horizontal-product-price">
-                                            <span>199,000 تومان</span>
-                                        </div>
-                                        <div class="card-horizontal-product-buttons">
-                                            <a href="#" class="btn btn-outline-info">جزئیات محصول</a>
+                                        <div class="product-card-body">
+                                            <h5 class="product-title">
+                                                <a href="product/<?= $product->id ?>"><?= $product->title ?></a>
+                                            </h5>
+                                            <a class="product-meta" href="product/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
+                                            <?php if ($product->discount_percent > 0):?>
+                                                <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
+                                            <?php endif;?>
+                                            <span class="product-price d-inline"><?= Product::getSalePrice($product->id) ?> تومان</span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="card-horizontal-product">
-                                    <div class="card-horizontal-product-thumb">
-                                        <a href="#">
-                                            <img src="./assets/img/products/020.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="card-horizontal-product-content">
-                                        <div class="card-horizontal-product-title">
-                                            <a href="#">
-                                                <h3>کت مردانه مجلسی مدل k-m-5110</h3>
-                                            </a>
-                                        </div>
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                        <div class="card-horizontal-product-price">
-                                            <span>199,000 تومان</span>
-                                        </div>
-                                        <div class="card-horizontal-product-buttons">
-                                            <a href="#" class="btn btn-outline-info">جزئیات محصول</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="card-horizontal-product">
-                                    <div class="card-horizontal-product-thumb">
-                                        <a href="#">
-                                            <img src="./assets/img/products/014.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="card-horizontal-product-content">
-                                        <div class="card-horizontal-product-title">
-                                            <a href="#">
-                                                <h3>کت مردانه مجلسی مدل k-m-5110</h3>
-                                            </a>
-                                        </div>
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                        <div class="card-horizontal-product-price">
-                                            <span>199,000 تومان</span>
-                                        </div>
-                                        <div class="card-horizontal-product-buttons">
-                                            <a href="#" class="btn btn-outline-info">جزئیات محصول</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php endforeach;?>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-12 pt-4">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card-horizontal-product">
-                                    <div class="card-horizontal-product-thumb">
-                                        <a href="#">
-                                            <img src="./assets/img/products/016.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="card-horizontal-product-content">
-                                        <div class="card-horizontal-product-title">
-                                            <a href="#">
-                                                <h3>کت مردانه مجلسی مدل k-m-5110</h3>
-                                            </a>
-                                        </div>
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                        <div class="card-horizontal-product-price">
-                                            <span>199,000 تومان</span>
-                                        </div>
-                                        <div class="card-horizontal-product-buttons">
-                                            <a href="#" class="btn btn-outline-info">جزئیات محصول</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="card-horizontal-product">
-                                    <div class="card-horizontal-product-thumb">
-                                        <a href="#">
-                                            <img src="./assets/img/products/018.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="card-horizontal-product-content">
-                                        <div class="card-horizontal-product-title">
-                                            <a href="#">
-                                                <h3>کت مردانه مجلسی مدل k-m-5110</h3>
-                                            </a>
-                                        </div>
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                        <div class="card-horizontal-product-price">
-                                            <span>199,000 تومان</span>
-                                        </div>
-                                        <div class="card-horizontal-product-buttons">
-                                            <a href="#" class="btn btn-outline-info">جزئیات محصول</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="card-horizontal-product">
-                                    <div class="card-horizontal-product-thumb">
-                                        <a href="#">
-                                            <img src="./assets/img/products/015.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="card-horizontal-product-content">
-                                        <div class="card-horizontal-product-title">
-                                            <a href="#">
-                                                <h3>کت مردانه مجلسی مدل k-m-5110</h3>
-                                            </a>
-                                        </div>
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                        <div class="card-horizontal-product-price">
-                                            <span>199,000 تومان</span>
-                                        </div>
-                                        <div class="card-horizontal-product-buttons">
-                                            <a href="#" class="btn btn-outline-info">جزئیات محصول</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-12 pt-4">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card-horizontal-product">
-                                    <div class="card-horizontal-product-thumb">
-                                        <a href="#">
-                                            <img src="./assets/img/products/017.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="card-horizontal-product-content">
-                                        <div class="card-horizontal-product-title">
-                                            <a href="#">
-                                                <h3>کت مردانه مجلسی مدل k-m-5110</h3>
-                                            </a>
-                                        </div>
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                        <div class="card-horizontal-product-price">
-                                            <span>199,000 تومان</span>
-                                        </div>
-                                        <div class="card-horizontal-product-buttons">
-                                            <a href="#" class="btn btn-outline-info">جزئیات محصول</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="card-horizontal-product">
-                                    <div class="card-horizontal-product-thumb">
-                                        <a href="#">
-                                            <img src="./assets/img/products/020.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="card-horizontal-product-content">
-                                        <div class="card-horizontal-product-title">
-                                            <a href="#">
-                                                <h3>کت مردانه مجلسی مدل k-m-5110</h3>
-                                            </a>
-                                        </div>
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                        <div class="card-horizontal-product-price">
-                                            <span>199,000 تومان</span>
-                                        </div>
-                                        <div class="card-horizontal-product-buttons">
-                                            <a href="#" class="btn btn-outline-info">جزئیات محصول</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="card-horizontal-product">
-                                    <div class="card-horizontal-product-thumb">
-                                        <a href="#">
-                                            <img src="./assets/img/products/014.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="card-horizontal-product-content">
-                                        <div class="card-horizontal-product-title">
-                                            <a href="#">
-                                                <h3>کت مردانه مجلسی مدل k-m-5110</h3>
-                                            </a>
-                                        </div>
-                                        <div class="rating-stars">
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star active"></i>
-                                            <i class="mdi mdi-star"></i>
-                                        </div>
-                                        <div class="card-horizontal-product-price">
-                                            <span>199,000 تومان</span>
-                                        </div>
-                                        <div class="card-horizontal-product-buttons">
-                                            <a href="#" class="btn btn-outline-info">جزئیات محصول</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- End Product-Slider -->
+
                 </div>
             </section>
-            <!-- End Feature-Product -->
+            <!-- End Product-Slider -->
         </div>
     </main>
     <!-- End main-content -->

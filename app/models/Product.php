@@ -10,19 +10,19 @@ class Product extends Model
     public $timestamps = false;
     protected $primaryKey = 'id';
 
-    function getProducts()
+    function getProducts($limit = 9)
     {
-        return $this->where('id', '!=', '0')->orderBy('created_at', 'desc')->get();
+        return $this->where('id', '!=', '0')->limit($limit)->orderBy('created_at', 'desc')->get();
     }
 
-    function getSliderProducts($limit = 3)
-    {
-        return $this->where('discount_percent', '>', '0')->orderBy('discount_percent', 'desc')->limit($limit)->get();
-    }
-
-    function getTopSaleProducts($limit = 7)
+    function getTopSaleProducts($limit = 9)
     {
         return $this->where('sale_count', '>', '0')->orderBy('sale_count', 'desc')->limit($limit)->get();
+    }
+
+    function getTopDiscountProducts($limit = 9)
+    {
+        return $this->where('discount_percent', '>', '0')->orderBy('discount_percent', 'desc')->limit($limit)->get();
     }
 
     static function hasDiscount($id)
