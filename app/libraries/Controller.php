@@ -1,8 +1,7 @@
 <?php
-/* 
- * Basic Controller
- * Loads the models & views
- */
+namespace didikala\libraries;
+
+ use didikala\models\User;
 
  class Controller {
 
@@ -13,7 +12,7 @@
         require_once '../app/models/' . $model . '.php';
 
         // init model file
-        return new $model;
+        return new User;
     }
 
     // Load view

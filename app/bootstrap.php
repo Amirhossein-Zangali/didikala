@@ -2,6 +2,9 @@
 session_start();
 require_once '../vendor/autoload.php';
 require_once 'config/config.php';
+require_once 'libraries/Core.php';
+include 'helpers/url_helper.php';
+include 'helpers/session_helper.php';
 
 date_default_timezone_set(TIMEZONE);
 

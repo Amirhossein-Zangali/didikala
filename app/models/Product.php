@@ -1,6 +1,6 @@
 <?php
 
-namespace didishop\models;
+namespace didikala\models;
 
 use Illuminate\Database\Eloquent\Model;
 

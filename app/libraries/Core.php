@@ -1,9 +1,10 @@
 <?php
-/*
- * App Core Class
- * Create URL & Load Core Controller
- * URL Format - controller/method/param
- */
+
+namespace didikala\libraries;
+
+use \didikala\controllers\Users;
+use \didikala\controllers\Pages;
+
 class Core {
     protected $currentController = 'Pages';
     protected $currentMethod = 'index';
@@ -25,6 +26,7 @@ class Core {
 
         // Require the Controller
         require_once '../app/controllers/' . $this->currentController . '.php';
+        $this->currentController = "\didikala\controllers\\$this->currentController";
 
         // Init the Controller
         $this->currentController = new $this->currentController;
@@ -41,7 +43,6 @@ class Core {
                 unset($url[1]);
             }
         }
-
         // Get Params
         $this->params = $url ? array_values($url) : [];
 

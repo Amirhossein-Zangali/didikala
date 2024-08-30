@@ -22,7 +22,7 @@ class ComposerStaticInitd6a897022412a3c15e3129efbffbf839
         ),
         'd' => 
         array (
-            'didishop\\' => 9,
+            'didikala\\' => 9,
         ),
         'S' => 
         array (
@@ -64,7 +64,7 @@ class ComposerStaticInitd6a897022412a3c15e3129efbffbf839
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
         ),
-        'didishop\\' => 
+        'didikala\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),

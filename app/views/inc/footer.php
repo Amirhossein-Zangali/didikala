@@ -9,25 +9,25 @@
             <div class="row">
                 <div class="service-item col">
                     <a href="#" target="_blank">
-                        <img src="assets/img/svg/delivery.svg">
+                        <img src="/public/assets/img/svg/delivery.svg">
                     </a>
                     <p>تحویل اکسپرس</p>
                 </div>
                 <div class="service-item col">
                     <a href="#" target="_blank">
-                        <img src="assets/img/svg/contact-us.svg">
+                        <img src="/public/assets/img/svg/contact-us.svg">
                     </a>
                     <p>پشتیبانی 24 ساعته</p>
                 </div>
                 <div class="service-item col">
                     <a href="#" target="_blank">
-                        <img src="assets/img/svg/return-policy.svg">
+                        <img src="/public/assets/img/svg/return-policy.svg">
                     </a>
                     <p>۷ روز ضمانت بازگشت</p>
                 </div>
                 <div class="service-item col">
                     <a href="#" target="_blank">
-                        <img src="assets/img/svg/origin-guarantee.svg">
+                        <img src="/public/assets/img/svg/origin-guarantee.svg">
                     </a>
                     <p>ضمانت اصل بودن کالا</p>
                 </div>
@@ -88,14 +88,14 @@
 </div>
 
 <!-- Core JS Files -->
-<script src="./assets/js/vendor/jquery-3.4.1.min.js"></script>
-<script src="./assets/js/vendor/popper.min.js"></script>
-<script src="./assets/js/vendor/bootstrap.min.js"></script>
+<script src="/public/assets/js/vendor/jquery-3.4.1.min.js"></script>
+<script src="/public/assets/js/vendor/popper.min.js"></script>
+<script src="/public/assets/js/vendor/bootstrap.min.js"></script>
 <!-- Plugins -->
-<script src="./assets/js/vendor/owl.carousel.min.js"></script>
-<script src="./assets/js/vendor/jquery.horizontalmenu.js"></script>
+<script src="/public/assets/js/vendor/owl.carousel.min.js"></script>
+<script src="/public/assets/js/vendor/jquery.horizontalmenu.js"></script>
 <!-- Main JS File -->
-<script src="./assets/js/main.js"></script>
+<script src="/public/assets/js/main.js"></script>
 </body>
 
 </html>
