@@ -87,7 +87,7 @@ use \didikala\models\User;
                         foreach ($categories as $category):
                             ?>
                             <li class="list-item list-item-has-children <?= Category::hasSubCategories($category->id) ? 'list-item-has-children-icon' : '' ?> menu-col-1">
-                                <a class="nav-link" href="category/<?= $category->id ?>"><?= $category->title ?></a>
+                                <a class="nav-link" href="/category/<?= $category->id ?>"><?= $category->title ?></a>
                                 <?php if (Category::hasSubCategories($category->id)): ?>
                                     <ul class="sub-menu nav">
                                         <?php
@@ -96,7 +96,7 @@ use \didikala\models\User;
                                             ?>
                                             <li class="list-item">
                                                 <a class="nav-link"
-                                                   href="category/<?= $subCategory->id ?>"><?= $subCategory->title ?></a>
+                                                   href="/category/<?= $subCategory->id ?>"><?= $subCategory->title ?></a>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
@@ -138,7 +138,7 @@ use \didikala\models\User;
                             foreach ($categories as $category):
                                 ?>
                                 <li class="<?= Category::hasSubCategories($category->id) ? 'sub-menu' : '' ?>">
-                                    <a href="category/<?= $category->id ?>"><?= $category->title ?></a>
+                                    <a href="/category/<?= $category->id ?>"><?= $category->title ?></a>
                                     <?php if (Category::hasSubCategories($category->id)): ?>
                                         <ul class="sub-menu">
                                             <?php
@@ -146,7 +146,7 @@ use \didikala\models\User;
                                             foreach ($subCategories as $subCategory):
                                                 ?>
                                                 <li>
-                                                    <a href="category/<?= $subCategory->id ?>"><?= $subCategory->title ?></a>
+                                                    <a href="/category/<?= $subCategory->id ?>"><?= $subCategory->title ?></a>
                                                 </li>
                                             <?php endforeach; ?>
                                         </ul>

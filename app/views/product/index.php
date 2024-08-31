@@ -195,6 +195,7 @@ include '../app/views/inc/header.php';
                                         </div>
                                         <?php endforeach; ?>
                                     </div>
+                                    <?php //TODO: pagination ?>
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="pagination">

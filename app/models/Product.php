@@ -60,7 +60,9 @@ class Product extends Model
         return Product::where('category_id', $id)->count() + Category::getCountSubCategories($id);
     }
 
-    static function getCategoryPost($id){
-        return Product::where('category_id', $id)->get();
+    static function getCategoryProducts($id){
+        $category = new Category();
+        $category = $category->where('sub_cat', $id)->first();
+        return Product::whereIn('category_id', [$id, @$category->id])->get();
     }
 }
