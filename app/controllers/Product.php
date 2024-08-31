@@ -59,5 +59,13 @@ class Product extends Controller
             $this->view('product/index', $data);
         }
     }
+    public function detail($id = 0)
+    {
+        $data = [
+            'products' => $this->productModel->getProduct($id)
+        ];
+
+        $this->view('product/detail', $data);
+    }
 
 }

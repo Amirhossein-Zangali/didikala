@@ -20,17 +20,17 @@ include '../app/views/inc/header.php';
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <a class="main-slider-slide" href="product/"
+                                <a class="main-slider-slide" href="/product/"
                                    style="background-image: url(/public/assets/img/main-slider/1.jpg)">
                                 </a>
                             </div>
                             <div class="carousel-item">
-                                <a class="main-slider-slide" href="product/"
+                                <a class="main-slider-slide" href="/product/"
                                    style="background-image: url(/public/assets/img/main-slider/2.jpg)">
                                 </a>
                             </div>
                             <div class="carousel-item">
-                                <a class="main-slider-slide" href="product/"
+                                <a class="main-slider-slide" href="/product/"
                                    style="background-image: url(/public/assets/img/main-slider/3.jpg)">
                                 </a>
                             </div>
@@ -55,7 +55,7 @@ include '../app/views/inc/header.php';
                             <div class="col-12">
                                 <div class="section-title text-sm-title title-wide no-after-title-wide">
                                     <h2>پر فروش ترین ها</h2>
-                                    <a href="product/?order=top_seller">مشاهده همه</a>
+                                    <a href="/product/?order=top_seller">مشاهده همه</a>
                                 </div>
                             </div>
 
@@ -85,14 +85,14 @@ include '../app/views/inc/header.php';
                                                         </div>
                                                     <?php endif;?>
                                                 </div>
-                                                <a class="product-thumb" href="product/<?= $product->id ?>">
+                                                <a class="product-thumb" href="/product/detail/<?= $product->id ?>">
                                                     <img src="/public/<?= $product->thumbnail ?>" alt="Product Thumbnail">
                                                 </a>
                                                 <div class="product-card-body">
                                                     <h5 class="product-title">
-                                                        <a href="product/<?= $product->id ?>"><?= $product->title ?></a>
+                                                        <a href="/product/detail/<?= $product->id ?>"><?= $product->title ?></a>
                                                     </h5>
-                                                    <a class="product-meta" href="product/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
+                                                    <a class="product-meta" href="/product/detail/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
                                                     <?php if ($product->discount_percent > 0):?>
                                                         <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
                                                     <?php endif;?>
@@ -143,7 +143,7 @@ include '../app/views/inc/header.php';
                     <div class="col-12">
                         <div class="section-title text-sm-title title-wide no-after-title-wide">
                             <h2>فروش ویژه ها</h2>
-                            <a href="product/?order=top_discount">مشاهده همه</a>
+                            <a href="/product/?order=top_discount">مشاهده همه</a>
                         </div>
                     </div>
 
@@ -173,14 +173,14 @@ include '../app/views/inc/header.php';
                                                 </div>
                                             <?php endif;?>
                                         </div>
-                                        <a class="product-thumb" href="product/<?= $product->id ?>">
+                                        <a class="product-thumb" href="/product/detail/<?= $product->id ?>">
                                             <img src="./<?= $product->thumbnail ?>" alt="Product Thumbnail">
                                         </a>
                                         <div class="product-card-body">
                                             <h5 class="product-title">
-                                                <a href="product/<?= $product->id ?>"><?= $product->title ?></a>
+                                                <a href="/product/detail/<?= $product->id ?>"><?= $product->title ?></a>
                                             </h5>
-                                            <a class="product-meta" href="product/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
+                                            <a class="product-meta" href="/product/detail/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
                                             <?php if ($product->discount_percent > 0):?>
                                                 <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
                                             <?php endif;?>
@@ -203,7 +203,7 @@ include '../app/views/inc/header.php';
                     <div class="col-12">
                         <div class="section-title text-sm-title title-wide no-after-title-wide">
                             <h2>جدید ترین ها</h2>
-                            <a href="product/?order=new">مشاهده همه</a>
+                            <a href="/product/?order=new">مشاهده همه</a>
                         </div>
                     </div>
 
@@ -233,14 +233,14 @@ include '../app/views/inc/header.php';
                                                 </div>
                                             <?php endif;?>
                                         </div>
-                                        <a class="product-thumb" href="product/<?= $product->id ?>">
+                                        <a class="product-thumb" href="/product/detail/<?= $product->id ?>">
                                             <img src="./<?= $product->thumbnail ?>" alt="Product Thumbnail">
                                         </a>
                                         <div class="product-card-body">
                                             <h5 class="product-title">
-                                                <a href="product/<?= $product->id ?>"><?= $product->title ?></a>
+                                                <a href="/product/detail/<?= $product->id ?>"><?= $product->title ?></a>
                                             </h5>
-                                            <a class="product-meta" href="product/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
+                                            <a class="product-meta" href="/product/detail/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
                                             <?php if ($product->discount_percent > 0):?>
                                                 <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
                                             <?php endif;?>

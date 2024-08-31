@@ -2459,41 +2459,6 @@ ul.gallery-options li:hover .tooltip-option {
     position: absolute;
 }
 
-.gallery-item::after {
-    top: 50%;
-    left: 50%;
-    width: 44px;
-    height: 44px;
-    margin-top: -22px;
-    margin-left: -22px;
-    border-radius: 50%;
-    background-color: #fff;
-    content: '';
-    z-index: 5;
-}
-
-.gallery-item:not(.type-video)::after {
-    transform: scale(0.2);
-    transition: all .3s .12s;
-    color: #404040;
-    font-family: "Material Design Icons";
-    font-size: 1.3125rem;
-    font-weight: normal;
-    line-height: 44px;
-    text-align: center;
-    content: "\F6EC";
-    opacity: 0;
-}
-
-.product-gallery .gallery-item::after {
-    box-shadow: 0 0.5rem 1.5rem 0 rgba(0, 0, 0, 0.26);
-}
-
-.gallery-item:hover:not(.type-video)::after {
-    transform: scale(1);
-    opacity: 1;
-}
-
 .product-gallery .product-thumbnails {
     display: block;
     margin: 0 -1rem;
@@ -2548,43 +2513,12 @@ ul.gallery-options li:hover .tooltip-option {
 }
 
 .product-info .product-title h1 {
-    font-size: 18px;
-    color: #666;
-    white-space: nowrap;
-    overflow: hidden;
-    position: relative;
-}
-
-.product-info .product-title h1::before {
-    content: '';
-    position: absolute;
-    width: 20%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, white 81%);
-    display: block;
-}
-
-.product-info .product-title h3 {
-    font-size: 14px;
+    font-size: 24px;
     color: #000;
     font-weight: bold;
     white-space: nowrap;
-    overflow: hidden;
     position: relative;
     font-family: sans-serif, iranyekan;
-}
-
-.product-info .product-title h3::before {
-    content: '';
-    position: absolute;
-    width: 20%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, white 81%);
-    display: block;
 }
 
 .product-variant {

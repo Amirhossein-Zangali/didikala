@@ -23,6 +23,7 @@ class User extends Model
         return User::where(['email' => $email])->exists();
     }
 
+
     public function register($data)
     {
         $user = new User();

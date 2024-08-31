@@ -15,6 +15,11 @@ class Product extends Model
         return $this->where('id', '!=', '0')->limit($limit)->orderBy($order, $order_type)->get();
     }
 
+    function getProduct($id = 0)
+    {
+        return $this->where('id', $id)->first();
+    }
+
     function getTopSaleProducts($limit = 9)
     {
         return $this->where('sale_count', '>', '0')->orderBy('sale_count', 'desc')->limit($limit)->get();
@@ -53,5 +58,9 @@ class Product extends Model
     static function getCountCategory($id)
     {
         return Product::where('category_id', $id)->count() + Category::getCountSubCategories($id);
+    }
+
+    static function getCategoryPost($id){
+        return Product::where('category_id', $id)->get();
     }
 }
