@@ -77,7 +77,7 @@ header.main-header .main-menu .list .list-item.mega-menu .sub-menu .sub-menu li 
 .header-cover {
     background-color: #f44336;
 }
-.search-amazing-tab .ah-tab>.ah-tab-item[data-ah-tab-active="true"]{
+.search-amazing-tab .ah-tab form>.ah-tab-item[data-ah-tab-active="true"]{
     background-color: #f44336;
 }
 .pagination a.active-page {

@@ -55,7 +55,7 @@ include '../app/views/inc/header.php';
                             <div class="col-12">
                                 <div class="section-title text-sm-title title-wide no-after-title-wide">
                                     <h2>پر فروش ترین ها</h2>
-                                    <a href="product/">مشاهده همه</a>
+                                    <a href="product/?order=top_seller">مشاهده همه</a>
                                 </div>
                             </div>
 
@@ -86,7 +86,7 @@ include '../app/views/inc/header.php';
                                                     <?php endif;?>
                                                 </div>
                                                 <a class="product-thumb" href="product/<?= $product->id ?>">
-                                                    <img src="./<?= $product->thumbnail ?>" alt="Product Thumbnail">
+                                                    <img src="/public/<?= $product->thumbnail ?>" alt="Product Thumbnail">
                                                 </a>
                                                 <div class="product-card-body">
                                                     <h5 class="product-title">
@@ -143,7 +143,7 @@ include '../app/views/inc/header.php';
                     <div class="col-12">
                         <div class="section-title text-sm-title title-wide no-after-title-wide">
                             <h2>فروش ویژه ها</h2>
-                            <a href="product/">مشاهده همه</a>
+                            <a href="product/?order=top_discount">مشاهده همه</a>
                         </div>
                     </div>
 
@@ -203,7 +203,7 @@ include '../app/views/inc/header.php';
                     <div class="col-12">
                         <div class="section-title text-sm-title title-wide no-after-title-wide">
                             <h2>جدید ترین ها</h2>
-                            <a href="product/">مشاهده همه</a>
+                            <a href="product/?order=new">مشاهده همه</a>
                         </div>
                     </div>
 

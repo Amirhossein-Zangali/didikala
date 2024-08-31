@@ -44,7 +44,7 @@ use \didikala\models\User;
                     </div>
                     <div class="col-lg-6 col-md-5 hidden-sm">
                         <div class="search-area dt-sl">
-                            <form action="/search" method="post" class="search">
+                            <form action="/product/?order=new" method="post" class="search">
                                 <input name="search" type="text" placeholder="نام کالا مورد نظر خود را جستجو کنید…">
                                 <button type="submit"><img src="/public/assets/img/theme/search.png" alt=""></button>
                             </form>

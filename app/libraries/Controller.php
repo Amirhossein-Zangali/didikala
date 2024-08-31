@@ -10,9 +10,10 @@ namespace didikala\libraries;
 
         // Require model file
         require_once '../app/models/' . $model . '.php';
+        $model = "didikala\models\\$model";
 
         // init model file
-        return new User;
+        return new $model;
     }
 
     // Load view
