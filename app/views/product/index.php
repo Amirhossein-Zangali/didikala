@@ -2,7 +2,7 @@
 
 use \didikala\models\Product;
 use \didikala\models\Category;
-if (!isset($_GET['order']) && !strstr($_GET['url'], 'detail'))
+if (!isset($_GET['order']) && (!strstr($_GET['url'], 'detail') || !strstr($_GET['url'], 'comment')))
     redirect('product/?order=new');
 
 require_once "../app/bootstrap.php";

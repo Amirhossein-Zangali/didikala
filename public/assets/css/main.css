@@ -2516,7 +2516,6 @@ ul.gallery-options li:hover .tooltip-option {
     font-size: 24px;
     color: #000;
     font-weight: bold;
-    white-space: nowrap;
     position: relative;
     font-family: sans-serif, iranyekan;
 }
@@ -3082,6 +3081,24 @@ input[type=radio]:checked+.ui-variant--check {
     height: 50px;
     background-color: #4ae3f3;
     border: 1px solid #4ae3f3;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+    -webkit-border-radius: 100% 50% 50% 100% / 75% 69% 69% 75%;
+    border-radius: 100% 50% 50% 100% / 75% 69% 69% 75%;
+}
+
+.message-danger--opinion-positive:before {
+    content: "\F514";
+    font-family: "Material Design Icons";
+    font-size: 28px;
+    position: absolute;
+    right: -20px;
+    top: -4px;
+    width: 50px;
+    height: 50px;
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
     color: #fff;
     text-align: center;
     line-height: 50px;

@@ -3,8 +3,10 @@ session_start();
 require_once '../vendor/autoload.php';
 require_once 'config/config.php';
 require_once 'libraries/Core.php';
-include 'helpers/url_helper.php';
-include 'helpers/session_helper.php';
+include_once 'libraries/jdf.php';
+include_once 'helpers/url_helper.php';
+include_once 'helpers/session_helper.php';
+include_once 'helpers/date_helper.php';
 
 date_default_timezone_set(TIMEZONE);
 

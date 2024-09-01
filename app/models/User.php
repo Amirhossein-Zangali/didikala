@@ -12,8 +12,22 @@ class User extends Model
 
     static function isUserLogin()
     {
-        return isset($_SESSION['user_id']);
+        $login = $_SESSION['user_id'] ?? false;
+        return $login;
     }
+
+    static function isWriter($id)
+    {
+        $user = User::where('id', $id)->first();
+        return $user->role == 'writer';
+    }
+
+    static function isAdmin($id)
+    {
+        $user = User::where('id', $id)->first();
+        return $user->role == 'admin';
+    }
+
     static function findUserByUsername($username)
     {
         return User::where(['username' => $username])->exists();

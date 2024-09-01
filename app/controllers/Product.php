@@ -1,4 +1,5 @@
 <?php
+
 namespace didikala\controllers;
 
 use didikala\libraries\Controller;
@@ -10,13 +11,15 @@ class Product extends Controller
     public function __construct()
     {
         $this->productModel = $this->model('Product');
+        $this->commentModel = $this->model('Comment');
     }
 
-    public function index(){
+    public function index()
+    {
         $order = $_GET['order'] ?? 'created_at';
         $order_type = 'desc';
 
-        if ($order){
+        if ($order) {
             if ($order == 'top_seller')
                 $order = 'sale_count';
             else if ($order == 'top_discount')
@@ -33,8 +36,8 @@ class Product extends Controller
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize Post data
-            $_POST = filter_input_array(INPUT_POST,FILTER_SANITIZE_SPECIAL_CHARS);
-            $_GET = filter_input_array(INPUT_GET,FILTER_SANITIZE_SPECIAL_CHARS);
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+            $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
 
             $search = isset($_POST['search']) ? trim($_POST['search']) : '';
             $category = isset($_POST['category']) ? intval($_POST['category']) : 0;
@@ -48,7 +51,7 @@ class Product extends Controller
                 'products' => $this->productModel->getSearchProducts($params, $order, $order_type),
                 $params
             ];
-            $this->view('product/index',$data);
+            $this->view('product/index', $data);
 
 
         } else {
@@ -59,6 +62,7 @@ class Product extends Controller
             $this->view('product/index', $data);
         }
     }
+
     public function detail($id = 0)
     {
         $data = [
@@ -66,6 +70,73 @@ class Product extends Controller
         ];
 
         $this->view('product/detail', $data);
+    }
+
+    public function comment($id = 0)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+            $strengths = isset($_POST['strengths']) ? trim($_POST['strengths']) : '';
+            $weaknesses = isset($_POST['weaknesses']) ? trim($_POST['weaknesses']) : '';
+            $content = isset($_POST['content']) ? trim($_POST['content']) : '';
+            $commendation = isset($_POST['commendation']) ? intval($_POST['commendation']) : 0;
+            $user_id = $_SESSION['user_id'];
+            $product_id = $id;
+            $params = [$user_id, $product_id, $strengths, $weaknesses, $content, $commendation];
+
+            $data = [
+                'comment' => $this->commentModel->addComment($params),
+                'products' => $this->productModel->getProduct($id)
+            ];
+            flash('comment_success', 'نظر با موفقیت ثبت و پس از تایید نمایش داده می شود.');
+            $this->view("product/detail", $data);
+
+        } else {
+            $data = [
+                'products' => $this->productModel->getProduct($id)
+            ];
+
+            $this->view('product/comment', $data);
+        }
+    }
+
+    public function question($id = 0)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+            if (isset($_POST['reply'])){
+                $data = [
+                    'products' => $this->productModel->getProduct($id),
+                    'reply' => $_POST['reply']
+                ];
+
+                $this->view('product/question', $data);
+            }else if (isset($_POST['question'])) {
+                $content = trim($_POST['question']);
+                $user_id = $_SESSION['user_id'];
+                $product_id = $id;
+                $reply = $_POST['reply_id'] ? intval($_POST['reply_id']) : 0;
+                $status = $_POST['reply_id'] ? 1 : 0;
+
+                $params = [$user_id, $product_id, $content];
+
+                $data = [
+                    'comment' => $this->commentModel->addQuestion($params, $reply, $status),
+                    'products' => $this->productModel->getProduct($id)
+                ];
+                if ($_POST['reply_id'])
+                    flash('comment_success', 'پاسخ با موفقیت ثبت شد.');
+                else
+                    flash('comment_success', 'پرسش با موفقیت ثبت و پس از تایید نمایش داده می شود.');
+
+                $this->view("product/detail", $data);
+            }
+        }
+        $data = [
+            'products' => $this->productModel->getProduct($id)
+        ];
+
+        $this->view('product/question', $data);
     }
 
 }
