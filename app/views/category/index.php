@@ -3,6 +3,14 @@
 use \didikala\models\Product;
 use \didikala\models\Category;
 
+$products = $data['products'];
+$page_count = Product::getPageCount();
+$page = $data['page'];
+if ($page > $page_count)
+    redirect("product/?order=new&&page=$page_count");
+
+Product::$offset = $data['offset'];
+
 require_once "../app/bootstrap.php";
 include '../app/views/inc/header.php';
 ?>
@@ -16,7 +24,7 @@ include '../app/views/inc/header.php';
                         <div class="ah-tab-content-wrapper dt-sl px-res-0">
                             <div class="ah-tab-content dt-sl" data-ah-tab-active="true">
                                 <div class="row mb-3 mx-0 px-res-0">
-                                    <?php foreach ($data['products'] as $product) : ?>
+                                    <?php foreach ($products as $product) : ?>
                                     <div class="col-lg-3 col-md-4 col-sm-6 col-12 px-10 mb-1 px-res-0">
                                         <div class="product-card mb-2 mx-res-0">
                                             <?php if (Product::hasDiscount($product->id)): ?>
@@ -30,16 +38,6 @@ include '../app/views/inc/header.php';
                                                 <?php else: ?>
                                                 <div class="product-head">
                                                     <?php endif; ?>
-                                                    <div class="rating-stars">
-                                                        <?php
-                                                        // TODO: show rating
-                                                        ?>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                    </div>
                                                 </div>
                                                 <a class="product-thumb" href="/product/detail/<?= $product->id ?>">
                                                     <img src="/public/<?= $product->thumbnail ?>"
@@ -60,22 +58,19 @@ include '../app/views/inc/header.php';
                                         </div>
                                         <?php endforeach; ?>
                                     </div>
-                                    <?php //TODO: pagination ?>
+                                    <?php if ($page_count > 1) : ?>
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="pagination">
-                                                <a href="#" class="prev"><i
-                                                            class="mdi mdi-chevron-double-right"></i></a>
-                                                <a href="#">1</a>
-                                                <a href="#" class="active-page">2</a>
-                                                <a href="#">3</a>
-                                                <a href="#">4</a>
-                                                <a href="#">...</a>
-                                                <a href="#">7</a>
-                                                <a href="#" class="next"><i class="mdi mdi-chevron-double-left"></i></a>
+                                            <div class="pagination paginations">
+                                                <form method="post">
+                                                    <?php for ($i = 1; $i <= $page_count; $i++) : ?>
+                                                        <button name="page" value="<?= $i ?>" type="submit" class="btn <?= $i == $page ? 'btn-danger' : ''; ?>"><?= $i ?></button>
+                                                    <?php endfor; ?>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>

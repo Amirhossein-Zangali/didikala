@@ -10,9 +10,16 @@ class Product extends Model
     public $timestamps = false;
     protected $primaryKey = 'id';
 
-    function getProducts($limit = 9, $order = 'created_at', $order_type= 'desc')
+    static public $products_count = 0;
+    static public $itemPerPage = ITEM_PER_PAGE;
+
+    static public $offset = 0;
+
+    function getProducts($limit = 8, $order = 'created_at', $order_type = 'desc', $offset = 0)
     {
-        return $this->where('id', '!=', '0')->limit($limit)->orderBy($order, $order_type)->get();
+        $products = $this->where('id', '!=', '0')->orderBy($order, $order_type);
+        Product::$products_count = $products->count();
+        return $products->limit($limit)->offset($offset)->get();
     }
 
     function getProduct($id = 0)
@@ -30,14 +37,22 @@ class Product extends Model
         return $this->where('discount_percent', '>', '0')->orderBy('discount_percent', 'desc')->limit($limit)->get();
     }
 
-    function getSearchProducts($params, $order = 'created_at', $order_type= 'desc' , $limit = 12)
+    function getSearchProducts($params, $order = 'created_at', $order_type = 'desc', $offset = 0, $limit = 8)
     {
         $search = ['title', 'LIKE', "%$params[0]%"];
-        $category = $params[1] == 0 ? ['category_id', '>', 0] : ['category_id',  $params[1]];
-        $price_start = $params[2] != 0 ? ['price', '>=', $params[2]*10] : ['price', '!=', -1];
-        $price_end = $params[3] != 0 ? ['price', '<=', $params[3]*10] : ['price', '!=', -1];
+        $category = new Category();
+        $categories = $category->where('sub_cat', $params[1])->get();
+        $category_ids = [$params[1]];
+        foreach ($categories as $category) {
+            $category_ids[] = $category->id;
+        }
+        $category = [array_values($category_ids)][0];
+        $price_start = $params[2] != 0 ? ['price', '>=', $params[2] * 10] : ['price', '!=', -1];
+        $price_end = $params[3] != 0 ? ['price', '<=', $params[3] * 10] : ['price', '!=', -1];
         $stock = $params[4] ? ['stock', '>', 0] : ['stock', '>=', 0];
-        return $this->where([$search, $category, $price_start, $price_end, $stock])->orderBy($order, $order_type)->limit($limit)->get();
+        $products = $this->where([$search, $price_start, $price_end, $stock])->whereIn('category_id', $category)->orderBy($order, $order_type);
+        Product::$products_count = $products->count();
+        return $products->limit($limit)->offset($offset)->get();
     }
 
     static function hasDiscount($id)
@@ -47,12 +62,13 @@ class Product extends Model
 
     static function getPrice($id)
     {
-        return number_format((Product::where('id', $id)->first()->price)/10);
+        return number_format((Product::where('id', $id)->first()->price) / 10);
     }
 
-    static function getSalePrice($id){
+    static function getSalePrice($id)
+    {
         $product = Product::where('id', $id)->first();
-        return number_format($product->price/10 - ($product->price/10 * ($product->discount_percent / 100)));
+        return number_format($product->price / 10 - ($product->price / 10 * ($product->discount_percent / 100)));
     }
 
     static function getCountCategory($id)
@@ -60,9 +76,18 @@ class Product extends Model
         return Product::where('category_id', $id)->count() + Category::getCountSubCategories($id);
     }
 
-    static function getCategoryProducts($id){
+    static function getCategoryProducts($id, $offset = 0, $limit = 8)
+    {
         $category = new Category();
         $category = $category->where('sub_cat', $id)->first();
-        return Product::whereIn('category_id', [$id, @$category->id])->get();
+        $products = Product::whereIn('category_id', [$id, @$category->id]);
+        Product::$products_count = $products->count();
+        return $products->limit($limit)->offset($offset)->get();
+    }
+
+    static function getPageCount()
+    {
+        return ceil(Product::$products_count / Product::$itemPerPage);
+
     }
 }

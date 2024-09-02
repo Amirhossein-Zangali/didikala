@@ -2,8 +2,21 @@
 
 use \didikala\models\Product;
 use \didikala\models\Category;
-if (!isset($_GET['order']) && (!strstr($_GET['url'], 'detail') || !strstr($_GET['url'], 'comment')))
-    redirect('product/?order=new');
+
+if (!isset($_GET['order']) && (!strstr($_GET['url'], 'detail') || !strstr($_GET['url'], 'comment'))){
+    if (isset($_GET['page']))
+        redirect("product/?order=new&&page={$_GET['page']}");
+    else
+        redirect('product/?order=new&&page=1');
+}
+
+$products = $data['products'];
+$page_count = Product::getPageCount();
+$page = $data['page'];
+if ($page > $page_count)
+    redirect("product/?order=new&&page=$page_count");
+
+Product::$offset = $data['offset'];
 
 require_once "../app/bootstrap.php";
 include '../app/views/inc/header.php';
@@ -25,7 +38,7 @@ include '../app/views/inc/header.php';
                 <!-- Start Sidebar -->
                 <div class="col-lg-3 col-md-12 col-sm-12 sticky-sidebar">
                     <div class="dt-sn mb-3">
-                        <form method="post">
+                        <form id="filterForm" method="post">
                             <div class="col-12">
                                 <div class="section-title text-sm-title title-wide mb-1 no-after-title-wide">
                                     <h2>فیلتر محصولات</h2>
@@ -40,6 +53,7 @@ include '../app/views/inc/header.php';
                                     </button>
                                 </div>
                             </div>
+                            <input type="hidden" name="page" value="1" id="filterFormPageInput">
                             <div class="col-12 filter-product mb-3">
                                 <div class="accordion" id="accordionExample">
                                     <div class="card">
@@ -124,7 +138,7 @@ include '../app/views/inc/header.php';
                     <div class="dt-sl dt-sn px-0 search-amazing-tab">
                         <div class="ah-tab-wrapper dt-sl">
                             <div class="ah-tab dt-sl">
-                                <form method="get" action="/product/">
+                                <form method="get">
                                     <button name="order" value="new" class="ah-tab-item"
                                             data-ah-tab-active="<?= @$_GET['order'] == 'new' ? 'true' : 'false' ?>">جدید
                                         ترین
@@ -151,66 +165,74 @@ include '../app/views/inc/header.php';
                         <div class="ah-tab-content-wrapper dt-sl px-res-0">
                             <div class="ah-tab-content dt-sl" data-ah-tab-active="true">
                                 <div class="row mb-3 mx-0 px-res-0">
-                                    <?php foreach ($data['products'] as $product) : ?>
-                                    <div class="col-lg-3 col-md-4 col-sm-6 col-12 px-10 mb-1 px-res-0">
-                                        <div class="product-card mb-2 mx-res-0">
-                                            <?php if (Product::hasDiscount($product->id)): ?>
-                                            <div class="promotion-badge">
-                                                فروش ویژه
-                                            </div>
-                                            <div class="product-head">
-                                                <div class="discount">
-                                                    <span><?= $product->discount_percent ?>%</span>
+                                    <?php if (Product::$products_count > 0) :
+                                        foreach ($products as $product) : ?>
+                                            <div class="col-lg-3 col-md-4 col-sm-6 col-12 px-10 mb-1 px-res-0">
+                                            <div class="product-card mb-2 mx-res-0">
+                                                <?php if (Product::hasDiscount($product->id)): ?>
+                                                <div class="promotion-badge">
+                                                    فروش ویژه
                                                 </div>
-                                                <?php else: ?>
                                                 <div class="product-head">
-                                                    <?php endif; ?>
-                                                    <div class="rating-stars">
-                                                        <?php
-                                                        // TODO: show rating
-                                                        ?>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
+                                                    <div class="discount">
+                                                        <span><?= $product->discount_percent ?>%</span>
+                                                    </div>
+                                                    <?php else: ?>
+                                                    <div class="product-head">
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <a class="product-thumb" href="/product/detail/<?= $product->id ?>">
+                                                        <img src="/public/<?= $product->thumbnail ?>"
+                                                             alt="Product Thumbnail">
+                                                    </a>
+                                                    <div class="product-card-body">
+                                                        <h5 class="product-title">
+                                                            <a href="product/<?= $product->id ?>"><?= $product->title ?></a>
+                                                        </h5>
+                                                        <a class="product-meta"
+                                                           href="product/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title ?></a>
+                                                        <?php if ($product->discount_percent > 0): ?>
+                                                            <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
+                                                        <?php endif; ?>
+                                                        <span class="product-price d-inline"><?= Product::getSalePrice($product->id) ?> تومان</span>
                                                     </div>
                                                 </div>
-                                                <a class="product-thumb" href="/product/detail/<?= $product->id ?>">
-                                                    <img src="/public/<?= $product->thumbnail ?>"
-                                                         alt="Product Thumbnail">
-                                                </a>
-                                                <div class="product-card-body">
-                                                    <h5 class="product-title">
-                                                        <a href="product/<?= $product->id ?>"><?= $product->title ?></a>
-                                                    </h5>
-                                                    <a class="product-meta"
-                                                       href="product/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title ?></a>
-                                                    <?php if ($product->discount_percent > 0): ?>
-                                                        <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
-                                                    <?php endif; ?>
-                                                    <span class="product-price d-inline"><?= Product::getSalePrice($product->id) ?> تومان</span>
+                                            </div>
+                                        <?php endforeach; ?>
+                                        </div>
+                                        <?php if ($page_count > 1) : ?>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="pagination paginations">
+                                                    <form id="pageForm">
+                                                        <input name="order" value="<?= $_GET['order'] ?>" type="hidden">
+                                                        <?php for ($i = 1; $i <= $page_count; $i++) : ?>
+                                                            <button name="page" value="<?= $i ?>" type="submit" class="btn <?= $i == $page ? 'btn-danger' : ''; ?>"><?= $i ?></button>
+                                                        <?php endfor; ?>
+                                                    </form>
+                                                    <script>
+                                                        document.querySelectorAll('#pageForm button[name="page"]').forEach(button => {
+                                                            button.addEventListener('click', function(e) {
+                                                                e.preventDefault();
+
+                                                                const pageValue = this.value;
+
+                                                                document.getElementById('filterFormPageInput').value = pageValue;
+
+                                                                document.getElementById('filterForm').submit();
+                                                            });
+                                                        });
+                                                    </script>
                                                 </div>
                                             </div>
                                         </div>
-                                        <?php endforeach; ?>
-                                    </div>
-                                    <?php //TODO: pagination ?>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="pagination">
-                                                <a href="#" class="prev"><i
-                                                            class="mdi mdi-chevron-double-right"></i></a>
-                                                <a href="#">1</a>
-                                                <a href="#" class="active-page">2</a>
-                                                <a href="#">3</a>
-                                                <a href="#">4</a>
-                                                <a href="#">...</a>
-                                                <a href="#">7</a>
-                                                <a href="#" class="next"><i class="mdi mdi-chevron-double-left"></i></a>
-                                            </div>
+                                    <?php endif; ?>
+
+                                    <?php else : ?>
+                                        <div class="alert alert-danger d-block w-100 text-center">محصول مورد نظر یافت
+                                            نشد!
                                         </div>
-                                    </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>

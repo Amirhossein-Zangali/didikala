@@ -1918,6 +1918,10 @@ section.slider-section {
     top: 42px;
 }
 
+.discount {
+    z-index: 1;
+}
+
 /* End Product-Card------------ */
 
 /* End Product-Carousel------------ */
@@ -2283,38 +2287,6 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
     display: inline-block;
     margin: 0 auto;
     text-align: center;
-}
-
-.pagination a {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    line-height: 33px;
-    border-radius: 10px;
-    font-size: 20px;
-    color: #212121;
-}
-
-.pagination a.next {
-    display: inline-block;
-    width: auto;
-    height: auto;
-    padding: 0 5px;
-    color: #333;
-}
-
-.pagination a.prev {
-    display: inline-block;
-    width: auto;
-    height: auto;
-    padding: 0 5px;
-    color: #333;
-}
-
-.pagination a.active-page {
-    background-color: #f7858d;
-    border-color: #f7858d;
-    color: #fff;
 }
 
 /* End Pagination------------ */

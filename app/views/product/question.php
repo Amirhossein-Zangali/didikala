@@ -12,7 +12,6 @@ include '../app/views/inc/header.php';
 <!-- Start main-content -->
 <main class="main-content dt-sl mt-4 mb-3">
     <div class="container main-container">
-        <?php //TODO: First - complete comment = method post and process  ?>
         <!-- Start Product -->
         <div class="dt-sn mb-5 dt-sl">
             <div class="row">

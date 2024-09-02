@@ -69,16 +69,6 @@ include '../app/views/inc/header.php';
                                         <div class="item">
                                             <div class="product-card">
                                                 <div class="product-head">
-                                                    <div class="rating-stars">
-                                                        <?php
-                                                        // TODO: show rating
-                                                        ?>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                        <i class="mdi mdi-star active"></i>
-                                                    </div>
                                                     <?php if (Product::hasDiscount($product->id)): ?>
                                                         <div class="discount">
                                                             <span><?= $product->discount_percent ?>%</span>
@@ -157,16 +147,6 @@ include '../app/views/inc/header.php';
                                 <div class="item">
                                     <div class="product-card">
                                         <div class="product-head">
-                                            <div class="rating-stars">
-                                                <?php
-                                                // TODO: show rating
-                                                ?>
-                                                <i class="mdi mdi-star active"></i>
-                                                <i class="mdi mdi-star active"></i>
-                                                <i class="mdi mdi-star active"></i>
-                                                <i class="mdi mdi-star active"></i>
-                                                <i class="mdi mdi-star active"></i>
-                                            </div>
                                             <?php if (Product::hasDiscount($product->id)): ?>
                                                 <div class="discount">
                                                     <span><?= $product->discount_percent ?>%</span>
@@ -217,16 +197,6 @@ include '../app/views/inc/header.php';
                                 <div class="item">
                                     <div class="product-card">
                                         <div class="product-head">
-                                            <div class="rating-stars">
-                                                <?php
-                                                // TODO: show rating
-                                                ?>
-                                                <i class="mdi mdi-star active"></i>
-                                                <i class="mdi mdi-star active"></i>
-                                                <i class="mdi mdi-star active"></i>
-                                                <i class="mdi mdi-star active"></i>
-                                                <i class="mdi mdi-star active"></i>
-                                            </div>
                                             <?php if (Product::hasDiscount($product->id)): ?>
                                                 <div class="discount">
                                                     <span><?= $product->discount_percent ?>%</span>

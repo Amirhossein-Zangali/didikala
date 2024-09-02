@@ -11,6 +11,7 @@ define('DB_CHAR', 'utf8mb4');
 define('DB_COLL', 'utf8mb4_unicode_ci');
 
 define('TIMEZONE', 'Asia/Tehran');
+define('ITEM_PER_PAGE', 8);
 
 
 // App Root

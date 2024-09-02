@@ -14,8 +14,12 @@ class Category extends Controller
     }
 
     public function index($id){
+        $page = $_POST['page'] ?? 1;
+        $offset = ($page - 1) * 8;
         $data = [
-            'products' => Product::getCategoryProducts($id)
+            'products' => Product::getCategoryProducts($id, $offset),
+            'page' => $page,
+            'offset' => $offset
         ];
 
         $this->view('category/index', $data);

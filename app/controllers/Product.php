@@ -16,9 +16,11 @@ class Product extends Controller
 
     public function index()
     {
+        $page = $_POST['page'] ?? 1;
+        $offset = ($page - 1) * 8;
+
         $order = $_GET['order'] ?? 'created_at';
         $order_type = 'desc';
-
         if ($order) {
             if ($order == 'top_seller')
                 $order = 'sale_count';
@@ -37,7 +39,6 @@ class Product extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize Post data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-            $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
 
             $search = isset($_POST['search']) ? trim($_POST['search']) : '';
             $category = isset($_POST['category']) ? intval($_POST['category']) : 0;
@@ -48,18 +49,21 @@ class Product extends Controller
             $params = [$search, $category, $price_start, $price_end, $stock];
 
             $data = [
-                'products' => $this->productModel->getSearchProducts($params, $order, $order_type),
-                $params
+                'products' => $this->productModel->getSearchProducts($params, $order, $order_type, $offset),
+                $params,
+                'page' => $page,
+                'offset' => $offset
             ];
             $this->view('product/index', $data);
 
 
         } else {
             $data = [
-                'products' => $this->productModel->getProducts(12, $order, $order_type)
+                'products' => $this->productModel->getProducts(8, $order, $order_type, $offset),
+                'page' => $page,
+                'offset' => $offset
             ];
-
-            $this->view('product/index', $data);
+            $this->view("product/index", $data);
         }
     }
 
