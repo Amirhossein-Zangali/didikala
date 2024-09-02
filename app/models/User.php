@@ -28,15 +28,20 @@ class User extends Model
         return $user->role == 'admin';
     }
 
+    static function haveAddress($id){
+        $user = User::where('id', $id)->first();
+        return $user->address;
+    }
+
     static function findUserByUsername($username)
     {
         return User::where(['username' => $username])->exists();
     }
+
     static function findUserByEmail($email)
     {
         return User::where(['email' => $email])->exists();
     }
-
 
     public function register($data)
     {

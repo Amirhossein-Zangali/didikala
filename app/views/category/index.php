@@ -33,7 +33,7 @@ include '../app/views/inc/header.php';
                                             </div>
                                             <div class="product-head">
                                                 <div class="discount">
-                                                    <span><?= $product->discount_percent ?>%</span>
+                                                    <span><?= $product->getProfitPercent($product->id) ?>%</span>
                                                 </div>
                                                 <?php else: ?>
                                                 <div class="product-head">
@@ -49,7 +49,7 @@ include '../app/views/inc/header.php';
                                                     </h5>
                                                     <a class="product-meta"
                                                        href="product/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title ?></a>
-                                                    <?php if ($product->discount_percent > 0): ?>
+                                                    <?php if ($product->getProfitPercent($product->id) > 0): ?>
                                                         <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
                                                     <?php endif; ?>
                                                     <span class="product-price d-inline"><?= Product::getSalePrice($product->id) ?> تومان</span>

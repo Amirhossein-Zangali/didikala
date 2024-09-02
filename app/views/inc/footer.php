@@ -1,8 +1,14 @@
 <!-- Start footer -->
 <footer class="main-footer dt-sl">
     <div class="back-to-top">
-        <a href="#"><span class="icon"><i class="mdi mdi-chevron-up"></i></span> <span>بازگشت به
-                        بالا</span></a>
+        <a href="">
+            <span class="icon">
+                <i class="mdi mdi-chevron-up">
+
+                </i>
+            </span>
+            <span>بازگشت به بالا</span>
+        </a>
     </div>
     <div class="container main-container">
         <div class="footer-services">

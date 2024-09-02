@@ -4085,16 +4085,6 @@ a.border-bottom-dt {
     position: relative;
 }
 
-.table-order-details .details-product::before {
-    content: '';
-    position: absolute;
-    width: 20%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, white 81%);
-    display: block;
-}
 
 .table-order-details .details-product span {
     display: block;
@@ -4568,17 +4558,6 @@ a.border-bottom-dt {
     overflow: hidden;
     position: relative;
     max-width: 320px;
-}
-
-.checkout-title::before {
-    content: '';
-    position: absolute;
-    width: 20%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, white 81%);
-    display: block;
 }
 
 .checkout-dealer {

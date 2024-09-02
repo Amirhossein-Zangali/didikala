@@ -60,15 +60,41 @@ class Product extends Model
         return Product::where([['discount_percent', '>', '0'], ['id', $id]])->exists();
     }
 
-    static function getPrice($id)
+    static function getPrice($id, $format = true)
     {
-        return number_format((Product::where('id', $id)->first()->price) / 10);
+        if ($format)
+            return number_format((Product::where('id', $id)->first()->price) / 10);
+        else
+            return (Product::where('id', $id)->first()->price) / 10;
     }
 
-    static function getSalePrice($id)
+    static function getSalePrice($id, $format = true)
     {
         $product = Product::where('id', $id)->first();
-        return number_format($product->price / 10 - ($product->price / 10 * ($product->discount_percent / 100)));
+        if ($format)
+            return number_format($product->price / 10 - ($product->price / 10 * ($product->discount_percent / 100)));
+        else
+            return $product->price / 10 - ($product->price / 10 * ($product->discount_percent / 100));
+    }
+
+    static function getProfit($productId, $format = true) {
+        if ($format)
+            return number_format(Product::getPrice($productId, false) - Product::getSalePrice($productId, false));
+        else
+            return Product::getPrice($productId, false) - Product::getSalePrice($productId, false);
+    }
+
+    public static function getProfitPercent($productId, $format = true) {
+        $profit = Product::getProfit($productId, false);
+        $total = Product::getSalePrice($productId, false);
+        $subTotal = Product::getPrice($productId, false);
+        $average = ($total + $subTotal) / 2;
+
+        $percentProfit = ($profit / $average) * 100;
+        if ($format)
+            return number_format($percentProfit);
+        else
+            return $percentProfit;
     }
 
     static function getCountCategory($id)
@@ -90,4 +116,15 @@ class Product extends Model
         return ceil(Product::$products_count / Product::$itemPerPage);
 
     }
+
+    static function updateStock($id, $type = '+' ,$stock = 1){
+        $product = Product::where('id', $id)->first();
+        $product->stock = $type == '+' ? $product->stock + $stock : $product->stock;
+        $product->stock = $type == '-' ? $product->stock - $stock : $product->stock;
+        if($product->save())
+            return true;
+        else
+            return false;
+    }
+
 }

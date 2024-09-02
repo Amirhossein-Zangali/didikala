@@ -77,20 +77,25 @@ include '../app/views/inc/header.php';
                             <h2>کد محصول:<?= $product->id ?></h2>
                         </div>
                         <div class="section-title text-sm-title title-wide no-after-title-wide mb-0 dt-sl">
-
                             <h2>قیمت :
-                                <?php if ($product->discount_percent > 0): ?>
-                                    <del class="text-danger price"><?= Product::getPrice($product->id) ?></del>
+                                <?php if ($product->getProfitPercent($product->id) > 0): ?>
+                                    <del class="text-danger price"><?= Product::getPrice($product->id) ?></del><span class="text-danger price">(<?= $product->getProfitPercent($product->id) ?>%)</span>
                                 <?php endif; ?>
                                 <span class="price"><?= Product::getSalePrice($product->id) ?> تومان</span>
                             </h2>
                         </div>
                         <div class="dt-sl mt-4">
-                            <a href="<?= User::isUserLogin() ? "/cart/add/$product->id" : "/pages/login" ?>"
-                               class="btn-primary-cm btn-with-icon">
+                            <?php if ($product->stock > 0): ?>
+                            <a href="<?= User::isUserLogin() ? "/cart/add/$product->id" : "/pages/login" ?>" class="btn-primary-cm btn-with-icon">
                                 <img src="/public/assets/img/theme/shopping-cart.png" alt="">
                                 افزودن به سبد خرید
                             </a>
+                            <?php else : ?>
+                            <a class="btn-primary-cm bg-secondary text-white btn-with-icon" style="cursor: pointer">
+                                <img src="/public/assets/img/theme/shopping-cart.png" alt="">
+                                محصول موجود نیست
+                            </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -319,20 +324,20 @@ include '../app/views/inc/header.php';
                                     <div class="product-head">
                                         <?php if (Product::hasDiscount($product->id)): ?>
                                             <div class="discount">
-                                                <span><?= $product->discount_percent ?>%</span>
+                                                <span><?= $product->getProfitPercent($product->id) ?>%</span>
                                             </div>
                                         <?php endif; ?>
                                     </div>
-                                    <a class="product-thumb" href="/product/<?= $product->id ?>">
+                                    <a class="product-thumb" href="/product/detail/<?= $product->id ?>">
                                         <img src="/public/<?= $product->thumbnail ?>" alt="Product Thumbnail">
                                     </a>
                                     <div class="product-card-body">
                                         <h5 class="product-title">
-                                            <a href="/product/<?= $product->id ?>"><?= $product->title ?></a>
+                                            <a href="/product/<?= $product->id ?>"><?= mb_substr($product->title, 0, 40) . '...' ?></a>
                                         </h5>
                                         <a class="product-meta"
                                            href="/product/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title ?></a>
-                                        <?php if ($product->discount_percent > 0): ?>
+                                        <?php if ($product->getProfitPercent($product->id) > 0): ?>
                                             <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
                                         <?php endif; ?>
                                         <span class="product-price d-inline"><?= Product::getSalePrice($product->id) ?> تومان</span>

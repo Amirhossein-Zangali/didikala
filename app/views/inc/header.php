@@ -1,6 +1,7 @@
 <?php
 use \didikala\models\Category;
 use \didikala\models\User;
+use \didikala\models\Order;
 ?>
 <!DOCTYPE html>
 <html lang="fa">
@@ -18,11 +19,13 @@ use \didikala\models\User;
     <!-- Plugins -->
     <link rel="stylesheet" href="/public/assets/css/vendor/owl.carousel.min.css">
     <link rel="stylesheet" href="/public/assets/css/vendor/jquery.horizontalmenu.css">
+    <link rel="stylesheet" href="/public/assets/css/vendor/nice-select.css">
+    <link rel="stylesheet" href="/public/assets/css/vendor/nouislider.min.css">
     <!-- Font Icon -->
     <link rel="stylesheet" href="/public/assets/css/vendor/materialdesignicons.min.css">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="/public/assets/css/main.css">
-    <link rel="stylesheet" href="/public/assets/css/red-color.css">
+    <link rel="stylesheet" href="/public/assets/css/colors/default.css" id="colorswitch">
 </head>
 
 <body>
@@ -106,11 +109,15 @@ use \didikala\models\User;
                     </ul>
                     <ul class="nav float-left">
                         <li class="nav-item">
+                            <?php if (User::isUserLogin()) : ?>
                             <a class="nav-link" href="cart/">
                                 <span class="label-dropdown">سبد خرید</span>
                                 <i class="mdi mdi-cart-outline"></i>
-                                <span class="count">0</span>
+                                <?php if (Order::haveOrder($_SESSION['user_id'])) : ?>
+                                <span class="count"><?= Order::getItemCount($_SESSION['user_id']) ?></span>
+                                <?php endif; ?>
                             </a>
+                            <?php endif; ?>
                         </li>
                     </ul>
                     <button class="btn-menu">

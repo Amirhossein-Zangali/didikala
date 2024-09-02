@@ -71,7 +71,7 @@ include '../app/views/inc/header.php';
                                                 <div class="product-head">
                                                     <?php if (Product::hasDiscount($product->id)): ?>
                                                         <div class="discount">
-                                                            <span><?= $product->discount_percent ?>%</span>
+                                                            <span><?= $product->getProfitPercent($product->id) ?>%</span>
                                                         </div>
                                                     <?php endif;?>
                                                 </div>
@@ -80,10 +80,10 @@ include '../app/views/inc/header.php';
                                                 </a>
                                                 <div class="product-card-body">
                                                     <h5 class="product-title">
-                                                        <a href="/product/detail/<?= $product->id ?>"><?= $product->title ?></a>
+                                                        <a href="/product/detail/<?= $product->id ?>"><?= mb_substr($product->title, 0, 40) . '...' ?></a>
                                                     </h5>
                                                     <a class="product-meta" href="/product/detail/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
-                                                    <?php if ($product->discount_percent > 0):?>
+                                                    <?php if ($product->getProfitPercent($product->id) > 0):?>
                                                         <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
                                                     <?php endif;?>
                                                     <span class="product-price d-inline"><?= Product::getSalePrice($product->id) ?> تومان</span>
@@ -149,7 +149,7 @@ include '../app/views/inc/header.php';
                                         <div class="product-head">
                                             <?php if (Product::hasDiscount($product->id)): ?>
                                                 <div class="discount">
-                                                    <span><?= $product->discount_percent ?>%</span>
+                                                    <span><?= $product->getProfitPercent($product->id) ?>%</span>
                                                 </div>
                                             <?php endif;?>
                                         </div>
@@ -158,10 +158,10 @@ include '../app/views/inc/header.php';
                                         </a>
                                         <div class="product-card-body">
                                             <h5 class="product-title">
-                                                <a href="/product/detail/<?= $product->id ?>"><?= $product->title ?></a>
+                                                <a href="/product/detail/<?= $product->id ?>"><?= mb_substr($product->title, 0, 40) . '...' ?></a>
                                             </h5>
                                             <a class="product-meta" href="/product/detail/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
-                                            <?php if ($product->discount_percent > 0):?>
+                                            <?php if ($product->getProfitPercent($product->id) > 0):?>
                                                 <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
                                             <?php endif;?>
                                             <span class="product-price d-inline"><?= Product::getSalePrice($product->id) ?> تومان</span>
@@ -199,19 +199,19 @@ include '../app/views/inc/header.php';
                                         <div class="product-head">
                                             <?php if (Product::hasDiscount($product->id)): ?>
                                                 <div class="discount">
-                                                    <span><?= $product->discount_percent ?>%</span>
+                                                    <span><?= $product->getProfitPercent($product->id) ?>%</span>
                                                 </div>
                                             <?php endif;?>
                                         </div>
                                         <a class="product-thumb" href="/product/detail/<?= $product->id ?>">
-                                            <img src="./<?= $product->thumbnail ?>" alt="Product Thumbnail">
+                                            <img src="/public/<?= $product->thumbnail ?>" alt="Product Thumbnail">
                                         </a>
                                         <div class="product-card-body">
                                             <h5 class="product-title">
-                                                <a href="/product/detail/<?= $product->id ?>"><?= $product->title ?></a>
+                                                <a href="/product/detail/<?= $product->id ?>"><?= mb_substr($product->title, 0, 40) . '...' ?></a>
                                             </h5>
                                             <a class="product-meta" href="/product/detail/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
-                                            <?php if ($product->discount_percent > 0):?>
+                                            <?php if ($product->getProfitPercent($product->id) > 0):?>
                                                 <del class="text-danger"><?= Product::getPrice($product->id) ?></del>
                                             <?php endif;?>
                                             <span class="product-price d-inline"><?= Product::getSalePrice($product->id) ?> تومان</span>
