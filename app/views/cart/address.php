@@ -38,7 +38,7 @@ $user = User::where('id', $_SESSION["user_id"])->first();
                                             <span><?= $user->address ?></span>
                                         </li>
                                     </ul>
-                                    <a href="/panel/" class="checkout-contact-location">تغییر آدرس</a>
+                                    <a href="/dashboard/" class="checkout-contact-location">تغییر آدرس</a>
                                     <div class="checkout-contact-badge">
                                         <i class="mdi mdi-check-bold"></i>
                                     </div>
@@ -46,7 +46,7 @@ $user = User::where('id', $_SESSION["user_id"])->first();
                                 <?php else : ?>
                                     <div class="checkout-contact-content">
                                         ابتدا در حساب کاربری خود آدرس ثبت کنید.
-                                        <a href="/panel/" class="btn btn-primary">ثبت آدرس</a>
+                                        <a href="/dashboard/" class="btn btn-primary">ثبت آدرس</a>
                                     </div>
                                 <?php endif; ?>
                             </div>

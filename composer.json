@@ -5,6 +5,7 @@
         } 
     },
     "require": {
-        "illuminate/database": "^10.48"
+        "illuminate/database": "^10.48",
+        "phpmailer/phpmailer": "^6.9"
     }
 }

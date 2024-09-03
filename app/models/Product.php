@@ -84,7 +84,7 @@ class Product extends Model
             return Product::getPrice($productId, false) - Product::getSalePrice($productId, false);
     }
 
-    public static function getProfitPercent($productId, $format = true) {
+    static function getProfitPercent($productId, $format = true) {
         $profit = Product::getProfit($productId, false);
         $total = Product::getSalePrice($productId, false);
         $subTotal = Product::getPrice($productId, false);

@@ -78,7 +78,7 @@ $user = User::where('id', $_SESSION["user_id"])->first();
                                     <?php else : ?>
                                         <div class="checkout-contact-content">
                                             ابتدا در حساب کاربری خود آدرس ثبت کنید.
-                                            <a href="/panel/" class="btn btn-primary">ثبت آدرس</a>
+                                            <a href="/dashboard/" class="btn btn-primary">ثبت آدرس</a>
                                         </div>
                                     <?php endif; ?>
                                 </div>

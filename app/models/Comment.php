@@ -35,8 +35,28 @@ class Comment extends Model
             return false;
     }
 
+    static function deleteComment($id){
+        return Comment::where('id', $id)->delete();
+    }
+
     static function getProductComments($product_id){
         return Comment::where([['product_id', $product_id], ['status', 1], ['question', 0]])->get();
+    }
+
+    static function getUserComments($user_id){
+        return Comment::where('user_id', $user_id)->where('question', 0)->orderBy('created_at', 'desc')->get();
+    }
+
+    static function getUserQuestions($user_id){
+        return Comment::where('user_id', $user_id)->where('question', 1)->where('reply', 0)->orderBy('created_at', 'desc')->get();
+    }
+
+    static function haveReply($comment_id){
+        return Comment::where('reply', $comment_id)->exists();
+    }
+
+    static function getReply($comment_id){
+        return Comment::where('reply', $comment_id)->orderBy('created_at', 'desc')->first();
     }
 
     static function getProductCommentCount($product_id){

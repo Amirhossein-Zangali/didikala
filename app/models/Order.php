@@ -15,6 +15,22 @@ class Order extends Model
         return $this->hasMany(OrderItem::class, 'order_id', 'id');
     }
 
+    public static function getItems($order_id) {
+        return OrderItem::where('order_id', $order_id)->get();
+    }
+
+    public static function getOrders($user_id, $limit = 2){
+        if ($limit == 0)
+            return Order::where('user_id', $user_id)->whereIn('status', ['failed', 'completed'])->orderBy('created_at', 'desc')->get();
+        else
+            return Order::where('user_id', $user_id)->whereIn('status', ['failed', 'completed'])->orderBy('created_at', 'desc')->limit($limit)->get();
+    }
+
+    public static function getOrder($order_id)
+    {
+        return Order::where('id', $order_id)->first();
+    }
+
     static function getItemCount($id)
     {
         $order = Order::where('user_id', $id)->where('status', 'pending')->first();
@@ -67,6 +83,7 @@ class Order extends Model
         }
         return false;
     }
+
     static function getVerifyPay($trackId, $merchant = 'zibal')
     {
         if ($merchant && is_numeric($trackId) && $trackId > 0) {

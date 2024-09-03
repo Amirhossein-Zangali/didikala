@@ -100,6 +100,11 @@
 <!-- Plugins -->
 <script src="/public/assets/js/vendor/owl.carousel.min.js"></script>
 <script src="/public/assets/js/vendor/jquery.horizontalmenu.js"></script>
+<script src="/public/assets/js/vendor/nouislider.min.js"></script>
+<script src="/public/assets/js/vendor/wNumb.js"></script>
+<script src="/public/assets/js/vendor/ResizeSensor.min.js"></script>
+<script src="/public/assets/js/vendor/theia-sticky-sidebar.min.js"></script>
+<script src="/public/assets/js/vendor/countdown.min.js"></script>
 <!-- Main JS File -->
 <script src="/public/assets/js/main.js"></script>
 </body>

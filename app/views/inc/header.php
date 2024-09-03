@@ -56,17 +56,17 @@ use \didikala\models\Order;
                     <div class="col-md-4 col-6 topbar-left">
                         <ul class="nav float-left">
                             <li class="nav-item account dropdown">
-                                <a class="nav-link" href="<?= !User::isUserLogin() ? '/pages/login' : '/panel/" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false' ?>">
+                                <a class="nav-link" href="<?= !User::isUserLogin() ? '/pages/login' : '/dashboard/" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false' ?>">
                                     <span class="label-dropdown"><?= User::isUserLogin() ? 'حساب کاربری' : 'ورود' ?></span>
                                     <i class="mdi mdi-account-circle-outline"></i>
                                 </a>
                                 <?php if (User::isUserLogin()):?>
                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
-                                    <a class="dropdown-item" href="/panel/">
+                                    <a class="dropdown-item" href="/dashboard/">
                                         <i class="mdi mdi-account-card-details-outline"></i>پروفایل
                                     </a>
                                     <div class="dropdown-divider" role="presentation"></div>
-                                    <a class="dropdown-item" href="/panel/logout">
+                                    <a class="dropdown-item" href="/pages/logout/">
                                         <i class="mdi mdi-logout-variant"></i>خروج
                                     </a>
                                 </div>
@@ -110,7 +110,7 @@ use \didikala\models\Order;
                     <ul class="nav float-left">
                         <li class="nav-item">
                             <?php if (User::isUserLogin()) : ?>
-                            <a class="nav-link" href="cart/">
+                            <a class="nav-link" href="/cart/">
                                 <span class="label-dropdown">سبد خرید</span>
                                 <i class="mdi mdi-cart-outline"></i>
                                 <?php if (Order::haveOrder($_SESSION['user_id'])) : ?>

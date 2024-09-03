@@ -7,6 +7,7 @@ use \didikala\models\User;
 require_once "../app/bootstrap.php";
 include_once 'cart-header.php';
 $order = $data['order'];
+$items = $data['items'];
 
 $user = User::where('id', $_SESSION["user_id"])->first();
 
@@ -20,14 +21,19 @@ if (isset($_GET['success'])) {
     }
     $trackId = $_GET['trackId'];
 }
+
 if (isset($complete_date)) {
     $current_order = Order::where('id', $order->id)->first();
     $current_order->gateway = 'zibal';
     $current_order->reference_id = $trackId;
     $current_order->status = 'completed';
     $current_order->completed_at = $complete_date;
-    if ($current_order->save())
+    if ($current_order->save()){
+        foreach ($items as $item) {
+            Product::updateStock($item->product_id, '-');
+        }
         redirect('cart/complete');
+    }
 } else if ($order->status == 'pending') {
     $current_order = Order::where('id', $order->id)->first();
     $current_order->gateway = 'zibal';
@@ -50,11 +56,12 @@ if (isset($complete_date)) {
                                 <i class="mdi mdi-check-bold"></i>
                             </div>
                             <div class="checkout-alert-title d-flex flex-column justify-content-center align-items-center">
-                                <h4> سفارش <span
-                                            class="checkout-alert-highlighted checkout-alert-highlighted-success"><?= $order->reference_id ?></span>
+                                <h4> سفارش <span class="checkout-alert-highlighted checkout-alert-highlighted-success"><?= $order->reference_id ?></span>
                                     با موفقیت در سیستم ثبت شد.
                                 </h4>
-                                <a href="/panel/" class="btn btn-primary text-center">رفتن به حساب کاربری</a>
+                                <form method="post" action="/dashboard/orders/">
+                                    <button name="id" value="<?= $order->id ?>" type="submit" class="btn btn-primary text-center">رفتن به سفارش</button>
+                                </form>
                             </div>
                         </div>
                         <section class="checkout-details dt-sl dt-sn mt-4 pt-2 pb-3 pr-3 pl-3 mb-5 px-res-1">
@@ -135,7 +142,7 @@ if (isset($complete_date)) {
                                             class="checkout-alert-highlighted checkout-alert-highlighted-success"><?= $order->reference_id ?></span>
                                     پرداخت ناموفق بود.
                                 </h4>
-                                <a href="/panel/" class="btn btn-primary text-center">رفتن به حساب کاربری</a>
+                                <a href="/dashboard/" class="btn btn-primary text-center">رفتن به حساب کاربری</a>
                             </div>
                         </div>
                         <section class="checkout-details dt-sl dt-sn mt-4 pt-2 pb-3 pr-3 pl-3 mb-5 px-res-1">
