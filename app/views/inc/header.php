@@ -1,7 +1,9 @@
 <?php
+
 use \didikala\models\Category;
 use \didikala\models\User;
 use \didikala\models\Order;
+
 ?>
 <!DOCTYPE html>
 <html lang="fa">
@@ -60,17 +62,17 @@ use \didikala\models\Order;
                                     <span class="label-dropdown"><?= User::isUserLogin() ? 'حساب کاربری' : 'ورود' ?></span>
                                     <i class="mdi mdi-account-circle-outline"></i>
                                 </a>
-                                <?php if (User::isUserLogin()):?>
-                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
-                                    <a class="dropdown-item" href="/dashboard/">
-                                        <i class="mdi mdi-account-card-details-outline"></i>پروفایل
-                                    </a>
-                                    <div class="dropdown-divider" role="presentation"></div>
-                                    <a class="dropdown-item" href="/pages/logout/">
-                                        <i class="mdi mdi-logout-variant"></i>خروج
-                                    </a>
-                                </div>
-                                <?php endif;?>
+                                <?php if (User::isUserLogin()): ?>
+                                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
+                                        <a class="dropdown-item" href="/dashboard/">
+                                            <i class="mdi mdi-account-card-details-outline"></i>پروفایل
+                                        </a>
+                                        <div class="dropdown-divider" role="presentation"></div>
+                                        <a class="dropdown-item" href="/pages/logout/">
+                                            <i class="mdi mdi-logout-variant"></i>خروج
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
                             </li>
                         </ul>
                     </div>
@@ -110,13 +112,13 @@ use \didikala\models\Order;
                     <ul class="nav float-left">
                         <li class="nav-item">
                             <?php if (User::isUserLogin()) : ?>
-                            <a class="nav-link" href="/cart/">
-                                <span class="label-dropdown">سبد خرید</span>
-                                <i class="mdi mdi-cart-outline"></i>
-                                <?php if (Order::haveOrder($_SESSION['user_id'])) : ?>
-                                <span class="count"><?= Order::getItemCount($_SESSION['user_id']) ?></span>
-                                <?php endif; ?>
-                            </a>
+                                <a class="nav-link" href="/cart/">
+                                    <span class="label-dropdown">سبد خرید</span>
+                                    <i class="mdi mdi-cart-outline"></i>
+                                    <?php if (Order::haveOrder($_SESSION['user_id'])) : ?>
+                                        <span class="count"><?= Order::getItemCount($_SESSION['user_id']) ?></span>
+                                    <?php endif; ?>
+                                </a>
                             <?php endif; ?>
                         </li>
                     </ul>

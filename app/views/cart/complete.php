@@ -31,6 +31,7 @@ if (isset($complete_date)) {
     if ($current_order->save()){
         foreach ($items as $item) {
             Product::updateStock($item->product_id, '-');
+            Product::updateSellCount($item->product_id);
         }
         redirect('cart/complete');
     }

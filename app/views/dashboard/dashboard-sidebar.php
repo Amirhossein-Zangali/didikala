@@ -15,6 +15,9 @@ use didikala\models\User;
                         <span class="d-block profile-phone"><?= $user->phone ?></span>
                     <?php endif; ?>
                 </div>
+                <?php if (!User::isUser()): ?>
+                    <a class="btn btn-primary float-left mt-2" href="/panel/">رفتن به پنل</a>
+                <?php endif; ?>
                 <div class="profile-link mt-2 dt-sl">
                     <div class="row">
                         <div class="col-6 text-center">

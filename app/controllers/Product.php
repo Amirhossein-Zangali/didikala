@@ -93,6 +93,7 @@ class Product extends Controller
                 'products' => $this->productModel->getProduct($id)
             ];
             flash('comment_success', 'نظر با موفقیت ثبت و پس از تایید نمایش داده می شود.');
+
             $this->view("product/detail", $data);
 
         } else {
@@ -115,7 +116,7 @@ class Product extends Controller
                 ];
 
                 $this->view('product/question', $data);
-            }else if (isset($_POST['question'])) {
+            } else if (isset($_POST['question'])) {
                 $content = trim($_POST['question']);
                 $user_id = $_SESSION['user_id'];
                 $product_id = $id;
@@ -128,6 +129,9 @@ class Product extends Controller
                     'comment' => $this->commentModel->addQuestion($params, $reply, $status),
                     'products' => $this->productModel->getProduct($id)
                 ];
+                if (isset($_POST['panel']))
+                    $this->view('panel/questions');
+
                 if ($_POST['reply_id'])
                     flash('comment_success', 'پاسخ با موفقیت ثبت شد.');
                 else

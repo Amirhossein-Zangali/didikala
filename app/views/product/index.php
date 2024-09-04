@@ -207,12 +207,13 @@ include '../app/views/inc/header.php';
                                                     <form id="pageForm">
                                                         <input name="order" value="<?= $_GET['order'] ?>" type="hidden">
                                                         <?php for ($i = 1; $i <= $page_count; $i++) : ?>
-                                                            <button name="page" value="<?= $i ?>" type="submit" class="btn <?= $i == $page ? 'btn-danger' : ''; ?>"><?= $i ?></button>
+                                                            <button name="page" value="<?= $i ?>" type="submit"
+                                                                    class="btn <?= $i == $page ? 'btn-danger' : ''; ?>"><?= $i ?></button>
                                                         <?php endfor; ?>
                                                     </form>
                                                     <script>
                                                         document.querySelectorAll('#pageForm button[name="page"]').forEach(button => {
-                                                            button.addEventListener('click', function(e) {
+                                                            button.addEventListener('click', function (e) {
                                                                 e.preventDefault();
 
                                                                 const pageValue = this.value;

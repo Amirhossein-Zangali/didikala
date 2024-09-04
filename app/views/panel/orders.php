@@ -9,15 +9,24 @@ use didikala\models\User;
 
 require_once "../app/bootstrap.php";
 
-if (!User::isUserLogin())
+if (User::isUserLogin()) {
+    if (User::isUser()) {
+        redirect('panel/');
+    }
+} else {
     redirect('pages/login');
-
-
+}
+if (!User::canManageOrder())
+    redirect('panel/');
 
 $order = false;
 if (isset($data['order']))
     $order = $data['order'];
 
+$page_count = Order::getPageCount();
+
+$page = $data['page'] ?? 1;
+$offset = $data['offset'] ?? 0;
 
 include '../app/views/inc/header.php';
 
@@ -29,7 +38,7 @@ $user = User::where('id', $_SESSION['user_id'])->first();
         <div class="container main-container">
             <div class="row">
 
-                <?php include_once 'dashboard-sidebar.php' ?>
+                <?php include_once 'panel-sidebar.php' ?>
                 <?php if (!$order): ?>
                     <!-- Start Content -->
                     <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
@@ -39,13 +48,17 @@ $user = User::where('id', $_SESSION['user_id'])->first();
                                     <h2>سفارش‌ها</h2>
                                 </div>
                                 <div class="profile-section dt-sl">
-                                    <?php $orders = Order::getOrders($user->id, 0);
+                                    <?php
+                                    if (User::isUserWriter())
+                                        $orders = Order::getWriterOrders($user->id, Order::$itemPerPage, $offset);
+                                    else
+                                        $orders = Order::getAllOrders(Order::$itemPerPage, $offset);
                                     if ($orders->count() > 0) :?>
                                     <div class="table-responsive">
                                             <table class="table table-order">
                                                 <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <th><?= $orders->count() ?></th>
                                                     <th>شماره سفارش</th>
                                                     <th>تاریخ ثبت سفارش</th>
                                                     <th>مبلغ قابل پرداخت</th>
@@ -57,14 +70,14 @@ $user = User::where('id', $_SESSION['user_id'])->first();
                                                 <tbody>
                                                 <?php foreach ($orders as $index => $order) : ?>
                                                     <tr>
-                                                        <td><?= $index + 1 ?></td>
+                                                        <td><?= $offset + $index + 1 ?></td>
                                                         <td><?= $order->id ?></td>
                                                         <td><?= convert_date($order->created_at) ?></td>
                                                         <td><?= Order::getTotal($order->id) ?> تومان</td>
                                                         <td><?= Order::getSubTotal($order->id) ?> تومان</td>
                                                         <td><?= $order->status == 'completed' ? 'تکمیل شده' : 'لغو شده' ?></td>
                                                         <td class="details-link">
-                                                            <form method="post" action="/dashboard/orders">
+                                                            <form method="post" action="/panel/orders">
                                                                 <button name="id" value="<?= $order->id ?>" class="btn"
                                                                         type="submit"><i
                                                                             class="mdi mdi-chevron-left"></i>
@@ -76,6 +89,19 @@ $user = User::where('id', $_SESSION['user_id'])->first();
                                                 </tbody>
                                             </table>
                                     </div>
+                                        <?php if ($page_count > 1) : ?>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="pagination paginations">
+                                                    <form method="post">
+                                                        <?php for ($i = 1; $i <= $page_count; $i++) : ?>
+                                                            <button name="page" value="<?= $i ?>" type="submit" class="btn <?= $i == $page ? 'btn-danger' : ''; ?>"><?= $i ?></button>
+                                                        <?php endfor; ?>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
                                     <?php else : ?>
                                         <div class="alert alert-danger">سفارشی ثبت نشده است.</div>
                                     <?php endif; ?>
@@ -90,7 +116,7 @@ $user = User::where('id', $_SESSION['user_id'])->first();
                         <div class="row">
                             <div class="col-12">
                                 <div class="profile-navbar">
-                                    <a href="/dashboard/orders/" class="profile-navbar-btn-back">بازگشت</a>
+                                    <a href="/panel/orders/" class="profile-navbar-btn-back">بازگشت</a>
                                     <h4>سفارش <span class="font-en"><?= $order->reference_id ?></span><span>ثبت شده در تاریخ <?= convert_date($order->created_at) ?></span>
                                     </h4>
                                 </div>
@@ -139,7 +165,6 @@ $user = User::where('id', $_SESSION['user_id'])->first();
                                     </div>
                                     <div class="table-responsive checkout-content dt-sl">
 
-                                        <?php flash('message'); ?>
                                         <table class="table table-cart">
                                             <tbody>
                                             <?php $items = Order::getItems($order->id);
@@ -180,6 +205,7 @@ $user = User::where('id', $_SESSION['user_id'])->first();
                         </div>
                     </div>
                     <!-- End Content -->
+
                 <?php endif; ?>
 
             </div>

@@ -96,6 +96,11 @@ include '../app/views/inc/header.php';
                                 محصول موجود نیست
                             </a>
                             <?php endif; ?>
+                            <?php if (User::isUserLogin() && User::canManageProduct()): ?>
+                            <form method="post" action="/panel/products/">
+                                <button name="id" value="<?= $product->id ?>" class="btn btn-primary mt-5" type="submit">نمایش در پنل</button>
+                            </form>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -254,7 +259,7 @@ include '../app/views/inc/header.php';
                                                         </div>
                                                     </div>
                                                     <p><?= $comment->content ?></p>
-                                                    <?php if (User::isWriter(User::isUserLogin()) || User::isAdmin(User::isUserLogin())) : ?>
+                                                    <?php if (User::isUserLogin() && (User::isWriter($_SESSION['user_id']) && (User::isProductWriter($product->id) || User::isAdmin($_SESSION['user_id'])))) : ?>
                                                     <div class="reply">
                                                         <form method="post" action="/product/question/<?= $product->id ?>">
                                                             <button class="comment-reply-link btn" name="reply" value="<?= $comment->id ?>" type="submit" >پاسخ</button>

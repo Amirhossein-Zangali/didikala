@@ -11,6 +11,98 @@ class User extends Model
     public $timestamps = false;
     protected $primaryKey = 'id';
 
+    static public $users_count = 0;
+    static public $itemPerPage = ITEM_PER_PAGE;
+
+    static function setUsersCount()
+    {
+        User::$users_count = User::getAllUsers()->count();
+    }
+
+    static function searchByField($field, $search)
+    {
+        if ($field == 'role') {
+            if ($search == 'ادمین')
+                $search = 'admin';
+            if ($search == 'نویسنده')
+                $search = 'writer';
+            if ($search == 'کاربر')
+                $search = 'user';
+        }
+        return User::where($field, 'LIKE', '%' . $search . '%')->get();
+    }
+
+    static function getUser($user_id)
+    {
+        return User::where('id', $user_id)->first();
+    }
+
+    static function getPageCount()
+    {
+        return ceil(User::$users_count / User::$itemPerPage);
+    }
+
+    static function getRoll($user_id, $fa = 0)
+    {
+        $user = User::where('id', $user_id)->first();
+        if ($user->role == 'user')
+            $role = $fa > 0 ? 'کاربر' : 'user';
+        if ($user->role == 'writer')
+            $role = $fa > 0 ? 'نویسنده' : 'writer';
+        if ($user->role == 'admin')
+            $role = $fa > 0 ? 'ادمین' : 'admin';
+        return $role;
+    }
+
+    static function getOrderCount($user_id)
+    {
+        return Order::where('user_id', $user_id)->where('status', 'completed')->count();
+    }
+
+    static function getAllUsers($limit = 0, $offset = 0)
+    {
+        if ($offset > 0)
+            return User::where('id', '!=', $_SESSION['user_id'])->orderBy('created_at', 'desc')->limit($limit)->offset($offset)->get();
+        if ($limit > 0)
+            return User::where('id', '!=', $_SESSION['user_id'])->orderBy('created_at', 'desc')->limit($limit)->get();
+        else
+            return User::where('id', '!=', $_SESSION['user_id'])->orderBy('created_at', 'desc')->get();
+    }
+
+    static function canManageUser()
+    {
+        return UserPermission::hasPermission('مدیریت_کاربر_ها', $_SESSION['user_id']);
+    }
+
+    static function canManagePermission()
+    {
+        return UserPermission::hasPermission('مدیریت_اجازه_ها', $_SESSION['user_id']);
+    }
+
+    static function canManageProduct()
+    {
+        return UserPermission::hasPermission('مدیریت_محصول_ها', $_SESSION['user_id']);
+    }
+
+    static function canManageComment()
+    {
+        return UserPermission::hasPermission('مدیریت_نظر_ها', $_SESSION['user_id']);
+    }
+
+    static function canManageQuestion()
+    {
+        return UserPermission::hasPermission('مدیریت_پرسش_ها', $_SESSION['user_id']);
+    }
+
+    static function canManageCategory()
+    {
+        return UserPermission::hasPermission('مدیریت_دسته_بندی_ها', $_SESSION['user_id']);
+    }
+
+    static function canManageOrder()
+    {
+        return UserPermission::hasPermission('مدیریت_سفارش_ها', $_SESSION['user_id']);
+    }
     static function isUserLogin()
     {
         $login = $_SESSION['user_id'] ?? false;
@@ -23,10 +115,21 @@ class User extends Model
         return $user->role == 'writer';
     }
 
+    static function isProductWriter($product_id)
+    {
+        return Product::where('id', $product_id)->where('user_id', $_SESSION['user_id'])->exists();
+    }
+
     static function isUserAdmin()
     {
         $user = User::where('id', $_SESSION['user_id'])->first();
         return $user->role == 'admin';
+    }
+
+    static function isUserUser($id)
+    {
+        $user = User::where('id', $id)->first();
+        return $user->role == 'user';
     }
 
     static function isUser()
@@ -68,7 +171,7 @@ class User extends Model
         return User::where('email', $email)->count() > 0;
     }
 
-    public static function sendActivationEmail($email)
+    static function sendActivationEmail($email)
     {
         $activationCode = random_int(100000, 999999);
         $_SESSION['email_code'] = $activationCode;

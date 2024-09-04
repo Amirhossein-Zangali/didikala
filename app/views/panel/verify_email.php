@@ -7,8 +7,13 @@ use didikala\models\User;
 
 require_once "../app/bootstrap.php";
 
-if (!User::isUserLogin())
+if (User::isUserLogin()) {
+    if (User::isUser()) {
+        redirect('panel/');
+    }
+} else {
     redirect('pages/login');
+}
 
 include '../app/views/inc/header.php';
 

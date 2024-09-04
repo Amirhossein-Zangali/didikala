@@ -7,8 +7,13 @@ use didikala\models\User;
 
 require_once "../app/bootstrap.php";
 
-if (!User::isUserLogin())
+if (User::isUserLogin()) {
+    if (User::isUser()) {
+        redirect('panel/');
+    }
+} else {
     redirect('pages/login');
+}
 
 include '../app/views/inc/header.php';
 
@@ -20,7 +25,7 @@ $user = User::where('id', $_SESSION['user_id'])->first();
         <div class="container main-container">
             <div class="row">
 
-                <?php include_once 'dashboard-sidebar.php' ?>
+                <?php include_once 'panel-sidebar.php' ?>
 
                 <!-- Start Content -->
                 <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">

@@ -22,6 +22,54 @@ class Product extends Model
         return $products->limit($limit)->offset($offset)->get();
     }
 
+    static function setProductsCount()
+    {
+        if (User::isUserWriter())
+            Product::$products_count = Product::getUserProducts($_SESSION['user_id'])->count();
+        else
+            Product::$products_count = Product::getAllProducts()->count();
+    }
+
+    static function deleteProduct($id)
+    {
+        $product = Product::getProductById($id);
+        if ($product->delete())
+            return true;
+        else
+            return false;
+    }
+
+    static function deleteThumbnail($id)
+    {
+        $product = Product::getProductById($id);
+        if (file_exists($product->thumbnail))
+            return unlink($product->thumbnail);
+        return false;
+    }
+
+    static function getAllProducts()
+    {
+        return Product::where('id', '!=', '0')->orderBy('created_at', 'desc')->get();
+    }
+
+    static function getProductById($id)
+    {
+        return Product::where('id', $id)->first();
+    }
+
+    static function getUserProducts($user_id = 0, $limit = 0, $offset = 0)
+    {
+        if ($user_id > 0)
+            $products = Product::where('user_id', $user_id);
+        else
+            $products = Product::where('id', '!=', '0');
+        if ($limit > 0)
+            $products = $products->limit($limit);
+        if ($offset > 0)
+            $products = $products->offset($offset);
+        return $products->orderBy('created_at', 'desc')->get();
+    }
+
     function getProduct($id = 0)
     {
         return $this->where('id', $id)->first();
@@ -37,20 +85,25 @@ class Product extends Model
         return $this->where('discount_percent', '>', '0')->orderBy('discount_percent', 'desc')->limit($limit)->get();
     }
 
-    function getSearchProducts($params, $order = 'created_at', $order_type = 'desc', $offset = 0, $limit = 8)
+    function getSearchProducts($params = 0, $order = 'created_at', $order_type = 'desc', $offset = 0, $limit = 8)
     {
-        $search = ['title', 'LIKE', "%$params[0]%"];
-        $category = new Category();
-        $categories = $category->where('sub_cat', $params[1])->get();
-        $category_ids = [$params[1]];
-        foreach ($categories as $category) {
-            $category_ids[] = $category->id;
-        }
-        $category = [array_values($category_ids)][0];
-        $price_start = $params[2] != 0 ? ['price', '>=', $params[2] * 10] : ['price', '!=', -1];
-        $price_end = $params[3] != 0 ? ['price', '<=', $params[3] * 10] : ['price', '!=', -1];
-        $stock = $params[4] ? ['stock', '>', 0] : ['stock', '>=', 0];
-        $products = $this->where([$search, $price_start, $price_end, $stock])->whereIn('category_id', $category)->orderBy($order, $order_type);
+        if (!$params == 0) {
+            $search = ['title', 'LIKE', "%$params[0]%"];
+            $category = new Category();
+            $categories = $category->where('sub_cat', $params[1])->get();
+            $category_ids = [$params[1]];
+            foreach ($categories as $category) {
+                $category_ids[] = $category->id;
+            }
+            $category = [array_values($category_ids)][0];
+            $price_start = $params[2] != 0 ? ['price', '>=', $params[2] * 10] : ['price', '!=', -1];
+            $price_end = $params[3] != 0 ? ['price', '<=', $params[3] * 10] : ['price', '!=', -1];
+            $stock = $params[4] ? ['stock', '>', 0] : ['stock', '>=', 0];
+            $products = $this->where([$search, $price_start, $price_end, $stock])->whereIn('category_id', $category)->orderBy($order, $order_type);
+        } else
+            $products = Product::where('id', '!=', '0')->orderBy($order, $order_type);
+        if (User::isUserWriter())
+            $products->where('user_id', $_SESSION['user_id']);
         Product::$products_count = $products->count();
         return $products->limit($limit)->offset($offset)->get();
     }
@@ -77,14 +130,16 @@ class Product extends Model
             return $product->price / 10 - ($product->price / 10 * ($product->discount_percent / 100));
     }
 
-    static function getProfit($productId, $format = true) {
+    static function getProfit($productId, $format = true)
+    {
         if ($format)
             return number_format(Product::getPrice($productId, false) - Product::getSalePrice($productId, false));
         else
             return Product::getPrice($productId, false) - Product::getSalePrice($productId, false);
     }
 
-    static function getProfitPercent($productId, $format = true) {
+    static function getProfitPercent($productId, $format = true)
+    {
         $profit = Product::getProfit($productId, false);
         $total = Product::getSalePrice($productId, false);
         $subTotal = Product::getPrice($productId, false);
@@ -111,17 +166,39 @@ class Product extends Model
         return $products->limit($limit)->offset($offset)->get();
     }
 
+    static function getCategoryProduct($cat_id)
+    {
+        return Category::where('id', $cat_id)->first();
+    }
+
+    static function getMainCategoryProduct($cat_id)
+    {
+        $category = Category::getMainCategory(Product::getCategoryProduct($cat_id)->id);
+        return $category ? $category : 'اصلی';
+    }
+
     static function getPageCount()
     {
         return ceil(Product::$products_count / Product::$itemPerPage);
-
     }
 
-    static function updateStock($id, $type = '+' ,$stock = 1){
+    static function updateStock($id, $type = '+', $stock = 1)
+    {
         $product = Product::where('id', $id)->first();
         $product->stock = $type == '+' ? $product->stock + $stock : $product->stock;
         $product->stock = $type == '-' ? $product->stock - $stock : $product->stock;
-        if($product->save())
+        if ($product->save())
+            return true;
+        else
+            return false;
+    }
+
+    static function updateSellCount($id, $type = '+', $stock = 1)
+    {
+        $product = Product::where('id', $id)->first();
+        $product->sale_count = $type == '+' ? $product->sale_count + $stock : $product->sale_count;
+        $product->sale_count = $type == '-' ? $product->sale_count - $stock : $product->sale_count;
+        if ($product->save())
             return true;
         else
             return false;

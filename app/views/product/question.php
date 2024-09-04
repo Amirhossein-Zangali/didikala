@@ -42,6 +42,9 @@ include '../app/views/inc/header.php';
                         $reply_comment = (new \didikala\models\Comment())->getQuestion($reply);
                     ?>
                     <h5><?= $reply_comment->content ?></h5>
+                    <?php endif;?>
+                    <?php if (isset($_POST['panel'])) : ?>
+                        <input name="panel" type="hidden">
                     <?php endif; ?>
                     <label class="d-block" for="question">متن <?= $reply ? 'پاسخ' : 'پرسش'?> شما (اجباری)</label>
                     <textarea required name="question" class="form-control" id="question" rows="5" placeholder="متن <?= $reply ? 'پاسخ' : 'پرسش'?> خود را بنویسید"></textarea>

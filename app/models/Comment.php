@@ -10,6 +10,50 @@ class Comment extends Model
     public $timestamps = false;
     protected $primaryKey = 'id';
 
+    static public $comment_count = 0;
+    static public $question_count = 0;
+    static public $itemPerPage = ITEM_PER_PAGE;
+
+    static function setCommentsCount()
+    {
+        Comment::$comment_count = Comment::getAllComments()->count();
+    }
+
+    static function setQuestionsCount()
+    {
+        Comment::$question_count = Comment::getAllQuestions()->count();
+    }
+
+    static function getCommentPageCount()
+    {
+        return ceil(Comment::$comment_count / Comment::$itemPerPage);
+    }
+
+    static function getQuestionPageCount()
+    {
+        return ceil(Comment::$question_count / Comment::$itemPerPage);
+    }
+
+    static function convertRecommendation($recommendation)
+    {
+        if ($recommendation == 0)
+            return 'نظری ندارد';
+        if ($recommendation == 1)
+            return 'پیشنهاد می کند';
+        if ($recommendation == -1)
+            return 'پیشنهاد نمی کند';
+    }
+
+    static function convertStatus($status)
+    {
+        if ($status == 0)
+            return 'تایید نشده';
+        if ($status == 1)
+            return 'تایید شده';
+        if ($status == -1)
+            return 'رد شده';
+    }
+
     function getComments($limit = 9, $order = 'created_at', $order_type= 'desc')
     {
         return $this->where([['id', '!=', '0'], ['question', 0]])->limit($limit)->orderBy($order, $order_type)->get();
@@ -49,6 +93,48 @@ class Comment extends Model
 
     static function getUserQuestions($user_id){
         return Comment::where('user_id', $user_id)->where('question', 1)->where('reply', 0)->orderBy('created_at', 'desc')->get();
+    }
+
+    static function getWriterComments($user_id, $limit = 0, $offset = 0){
+        $user_products = Product::getUserProducts($user_id);
+        $user_products_id = [];
+        foreach ($user_products as $user_product) {
+            $user_products_id[] = $user_product->id;
+        }
+        if ($offset > 0)
+            return Comment::whereIn('product_id', $user_products_id)->where('question', 0)->orderBy('created_at', 'desc')->limit($limit)->offset($offset)->get();
+        if ($limit > 0)
+            return Comment::whereIn('product_id', $user_products_id)->where('question', 0)->orderBy('created_at', 'desc')->limit($limit)->get();
+        else
+            return Comment::whereIn('product_id', $user_products_id)->where('question', 0)->orderBy('created_at', 'desc')->get();
+
+    }
+
+    static function getWriterQuestions($user_id){
+        $user_products = Product::getUserProducts($user_id);
+        $user_products_id = [];
+        foreach ($user_products as $user_product) {
+            $user_products_id[] = $user_product->id;
+        }
+        return Comment::whereIn('product_id', $user_products_id)->where('question', 1)->where('reply', 0)->orderBy('created_at', 'desc')->get();
+    }
+
+    static function getAllQuestions($limit = 0, $offset = 0){
+        if ($offset > 0)
+            return Comment::where('question', 1)->where('reply', 0)->orderBy('created_at', 'desc')->limit($limit)->offset($offset)->get();
+        if ($limit > 0)
+            return Comment::where('question', 1)->where('reply', 0)->orderBy('created_at', 'desc')->limit($limit)->get();
+        else
+            return Comment::where('question', 1)->where('reply', 0)->orderBy('created_at', 'desc')->get();
+    }
+
+    static function getAllComments($limit = 0, $offset = 0){
+        if ($offset > 0)
+            return Comment::where('question', 0)->orderBy('created_at', 'desc')->limit($limit)->offset($offset)->get();
+        if ($limit > 0)
+            return Comment::where('question', 0)->orderBy('created_at', 'desc')->limit($limit)->get();
+        else
+            return Comment::where('question', 0)->orderBy('created_at', 'desc')->get();
     }
 
     static function haveReply($comment_id){
