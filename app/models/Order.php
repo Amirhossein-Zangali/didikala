@@ -22,9 +22,18 @@ class Order extends Model
             Order::$orders_count = Order::getAllOrders()->count();
     }
 
-    static function getRevenue($when)
+    static function getRevenue($when, $format = true)
     {
-        return number_format(Order::where('completed_at', '>=', date('Y-m-d', strtotime("-1 $when")))->sum('total'));
+        if (User::isUserWriter())
+            $revenue = Order::getWriterOrders($_SESSION['user_id'], 0, 0, true);
+        else
+            $revenue = Order::where('id', '!=', 0);
+        
+        $revenue = $revenue->where('completed_at', '>=', date('Y-m-d', strtotime("-1 $when")))->sum('total');
+        if ($format)
+            return number_format($revenue);
+        else
+            return $revenue;
     }
 
     public function items()
@@ -42,7 +51,7 @@ class Order extends Model
             return Order::where('status', '!=', 'pending')->orderBy('created_at', 'desc')->get();
     }
 
-    public static function getWriterOrders($user_id, $limit = 0, $offset = 0)
+    public static function getWriterOrders($user_id, $limit = 0, $offset = 0, $revenue = false)
     {
         $userProducts_id = Product::where('user_id', $user_id)->pluck('id')->toArray();
         $orders = Order::getAllOrders();
@@ -53,9 +62,10 @@ class Order extends Model
                 $userOrders[] = $orderItem->order_id;
             }
         }
+        if ($revenue)
+            return Order::whereIn('id', $userOrders);
         return Order::whereIn('id', $userOrders)->orderBy('created_at', 'desc')->limit($limit)->offset($offset)->get();
     }
-
 
     static function getPageCount()
     {

@@ -15,7 +15,7 @@ class Product extends Model
 
     static public $offset = 0;
 
-    function getProducts($limit = 8, $order = 'created_at', $order_type = 'desc', $offset = 0)
+    function getProducts($limit = ITEM_PER_PAGE, $order = 'created_at', $order_type = 'desc', $offset = 0)
     {
         $products = $this->where('id', '!=', '0')->orderBy($order, $order_type);
         Product::$products_count = $products->count();
@@ -24,7 +24,7 @@ class Product extends Model
 
     static function setProductsCount()
     {
-        if (User::isUserWriter())
+        if (User::isUserWriter() && strstr($_SERVER['REDIRECT_URL'], 'panel'))
             Product::$products_count = Product::getUserProducts($_SESSION['user_id'])->count();
         else
             Product::$products_count = Product::getAllProducts()->count();
@@ -90,8 +90,12 @@ class Product extends Model
         if (!$params == 0) {
             $search = ['title', 'LIKE', "%$params[0]%"];
             $category = new Category();
-            $categories = $category->where('sub_cat', $params[1])->get();
+            if ($params[1] > 1)
+                $categories = $category->where('sub_cat', $params[1])->get();
+            else
+                $categories = Category::getAllCategories();
             $category_ids = [$params[1]];
+
             foreach ($categories as $category) {
                 $category_ids[] = $category->id;
             }
@@ -99,11 +103,14 @@ class Product extends Model
             $price_start = $params[2] != 0 ? ['price', '>=', $params[2] * 10] : ['price', '!=', -1];
             $price_end = $params[3] != 0 ? ['price', '<=', $params[3] * 10] : ['price', '!=', -1];
             $stock = $params[4] ? ['stock', '>', 0] : ['stock', '>=', 0];
-            $products = $this->where([$search, $price_start, $price_end, $stock])->whereIn('category_id', $category)->orderBy($order, $order_type);
+            $products = $this->where([$search, $price_start, $price_end, $stock]);
+            $products = $products->whereIn('category_id', $category);
+            $products = $products->orderBy($order, $order_type);
         } else
             $products = Product::where('id', '!=', '0')->orderBy($order, $order_type);
-        if (User::isUserWriter())
+        if (User::isUserLogin() && User::isUserWriter() && strstr($_SERVER['REDIRECT_URL'], 'panel'))
             $products->where('user_id', $_SESSION['user_id']);
+
         Product::$products_count = $products->count();
         return $products->limit($limit)->offset($offset)->get();
     }

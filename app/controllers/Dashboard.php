@@ -11,7 +11,6 @@ require_once "../app/bootstrap.php";
 
 class Dashboard extends Controller
 {
-
     public function index()
     {
         $this->view('dashboard/index');
@@ -109,8 +108,7 @@ class Dashboard extends Controller
         $this->view('dashboard/info', $data);
     }
 
-    public
-    function verify_email()
+    public function verify_email()
     {
         $data = [];
         if (isset($_POST['sendEmail'])) {
@@ -129,5 +127,4 @@ class Dashboard extends Controller
         }
         $this->view('dashboard/verify_email', $data);
     }
-
 }

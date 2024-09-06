@@ -1,15 +1,18 @@
 <?php
 namespace didikala\controllers;
 
+use AllowDynamicProperties;
 use didikala\libraries\Controller;
+use didikala\models\User;
+
 
 require_once "../app/bootstrap.php";
 
-class Pages extends Controller
+#[AllowDynamicProperties] class Pages extends Controller
 {
     public function __construct()
     {
-        $this->userModel = $this->model('User');
+        $this->userModel = new User();
     }
 
     public function index(){

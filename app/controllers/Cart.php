@@ -219,5 +219,4 @@ class Cart extends Controller
         Order::calculateTotals($order_id);
         return redirect('cart');
     }
-
 }

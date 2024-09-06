@@ -259,7 +259,7 @@ include '../app/views/inc/header.php';
                                                         </div>
                                                     </div>
                                                     <p><?= $comment->content ?></p>
-                                                    <?php if (User::isUserLogin() && (User::isWriter($_SESSION['user_id']) && (User::isProductWriter($product->id) || User::isAdmin($_SESSION['user_id'])))) : ?>
+                                                    <?php if (User::isUserLogin() && User::canManageProduct() && (User::isProductWriter($product->id) || User::isAdmin($_SESSION['user_id']))) : ?>
                                                     <div class="reply">
                                                         <form method="post" action="/product/question/<?= $product->id ?>">
                                                             <button class="comment-reply-link btn" name="reply" value="<?= $comment->id ?>" type="submit" >پاسخ</button>
@@ -338,7 +338,7 @@ include '../app/views/inc/header.php';
                                     </a>
                                     <div class="product-card-body">
                                         <h5 class="product-title">
-                                            <a href="/product/<?= $product->id ?>"><?= mb_substr($product->title, 0, 40) . '...' ?></a>
+                                            <a href="/product/<?= $product->id ?>"><?= mb_substr($product->title, 0, 35) . '...' ?></a>
                                         </h5>
                                         <a class="product-meta"
                                            href="/product/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title ?></a>

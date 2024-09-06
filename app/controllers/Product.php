@@ -2,16 +2,18 @@
 
 namespace didikala\controllers;
 
+use AllowDynamicProperties;
 use didikala\libraries\Controller;
+use didikala\models\Comment;
 
 require_once "../app/bootstrap.php";
 
-class Product extends Controller
+#[AllowDynamicProperties] class Product extends Controller
 {
     public function __construct()
     {
-        $this->productModel = $this->model('Product');
-        $this->commentModel = $this->model('Comment');
+        $this->productModel = new \didikala\models\Product();
+        $this->commentModel = new Comment();
     }
 
     public function index()
@@ -47,7 +49,6 @@ class Product extends Controller
             $stock = isset($_POST['stock']);
 
             $params = [$search, $category, $price_start, $price_end, $stock];
-
             $data = [
                 'products' => $this->productModel->getSearchProducts($params, $order, $order_type, $offset),
                 $params,
@@ -59,7 +60,7 @@ class Product extends Controller
 
         } else {
             $data = [
-                'products' => $this->productModel->getProducts(8, $order, $order_type, $offset),
+                'products' => $this->productModel->getSearchProducts(0, $order, $order_type, $offset),
                 'page' => $page,
                 'offset' => $offset
             ];
@@ -146,5 +147,4 @@ class Product extends Controller
 
         $this->view('product/question', $data);
     }
-
 }

@@ -56,17 +56,8 @@
                     </p>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <div class="newsletter">
-                        <p>از تخفیف‌ها و جدیدترین‌های فروشگاه باخبر شوید:</p>
-                        <form action="">
-                            <input type="email" class="form-control"
-                                   placeholder="آدرس ایمیل خود را وارد کنید...">
-                            <input type="submit" class="btn btn-primary" value="ارسال">
-                        </form>
-                    </div>
                     <div class="socials">
-                        <p>ما را در شبکه های اجتماعی دنبال کنید.</p>
-                        <div class="footer-social">
+                            <div class="footer-social">
                             <ul class="text-center">
                                 <li><a href="#"><i class="mdi mdi-instagram"></i></a></li>
                                 <li><a href="#"><i class="mdi mdi-telegram"></i></a></li>
@@ -99,7 +90,9 @@
 <script src="/public/assets/js/vendor/bootstrap.min.js"></script>
 <!-- Plugins -->
 <script src="/public/assets/js/vendor/owl.carousel.min.js"></script>
+<?php if (strstr($_SERVER['REDIRECT_URL'], 'detail')) :?>
 <script src="/public/assets/js/vendor/jquery.horizontalmenu.js"></script>
+<?php endif; ?>
 <script src="/public/assets/js/vendor/nouislider.min.js"></script>
 <script src="/public/assets/js/vendor/wNumb.js"></script>
 <script src="/public/assets/js/vendor/ResizeSensor.min.js"></script>

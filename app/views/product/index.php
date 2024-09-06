@@ -3,7 +3,7 @@
 use \didikala\models\Product;
 use \didikala\models\Category;
 
-if (!isset($_GET['order']) && (!strstr($_GET['url'], 'detail') || !strstr($_GET['url'], 'comment'))){
+if (!isset($_GET['order']) && (!strstr($_GET['url'], 'detail') || !strstr($_GET['url'], 'comment'))) {
     if (isset($_GET['page']))
         redirect("product/?order=new&&page={$_GET['page']}");
     else
@@ -140,8 +140,8 @@ include '../app/views/inc/header.php';
                             <div class="ah-tab dt-sl">
                                 <form method="get">
                                     <button name="order" value="new" class="ah-tab-item"
-                                            data-ah-tab-active="<?= @$_GET['order'] == 'new' ? 'true' : 'false' ?>">جدید
-                                        ترین
+                                            data-ah-tab-active="<?= @$_GET['order'] == 'new' ? 'true' : 'false' ?>">
+                                        جدید ترین
                                     </button>
                                     <button name="order" value="top_seller" class="ah-tab-item"
                                             data-ah-tab-active="<?= @$_GET['order'] == 'top_seller' ? 'true' : 'false' ?>">
@@ -187,7 +187,7 @@ include '../app/views/inc/header.php';
                                                     </a>
                                                     <div class="product-card-body">
                                                         <h5 class="product-title">
-                                                            <a href="product/<?= $product->id ?>"><?= mb_substr($product->title, 0, 40) . '...' ?></a>
+                                                            <a href="product/<?= $product->id ?>"><?= mb_substr($product->title, 0, 35) . '...' ?></a>
                                                         </h5>
                                                         <a class="product-meta"
                                                            href="product/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title ?></a>

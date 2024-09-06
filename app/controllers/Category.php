@@ -8,11 +8,6 @@ require_once "../app/bootstrap.php";
 
 class Category extends Controller
 {
-    public function __construct()
-    {
-        $this->categoryModel = $this->model('Category');
-    }
-
     public function index($id){
         $page = $_POST['page'] ?? 1;
         $offset = ($page - 1) * 8;
@@ -24,5 +19,4 @@ class Category extends Controller
 
         $this->view('category/index', $data);
     }
-
 }

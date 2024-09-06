@@ -15,7 +15,6 @@ require_once "../app/bootstrap.php";
 
 class Panel extends Controller
 {
-
     public function index()
     {
         $this->view('panel/index');
@@ -213,6 +212,8 @@ class Panel extends Controller
                     $user = User::where('id', $_SESSION['user_id'])->first();
                     $user->name = $_POST['name'];
                     $user->username = $_POST['username'];
+                    if ($user->email != $_POST['email'])
+                        $user->email_verify = 0;
                     $user->email = $_POST['email'];
                     $user->phone = $_POST['phone'];
                     if ($user->save())
@@ -247,5 +248,4 @@ class Panel extends Controller
 
         $this->view('panel/info', $data);
     }
-
 }

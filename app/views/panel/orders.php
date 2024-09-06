@@ -50,7 +50,7 @@ $user = User::where('id', $_SESSION['user_id'])->first();
                                 <div class="profile-section dt-sl">
                                     <?php
                                     if (User::isUserWriter())
-                                        $orders = Order::getWriterOrders($user->id, Order::$itemPerPage, $offset);
+                                        $orders = Order::getWriterOrders($_SESSION['user_id'], Order::$itemPerPage, $offset);
                                     else
                                         $orders = Order::getAllOrders(Order::$itemPerPage, $offset);
                                     if ($orders->count() > 0) :?>

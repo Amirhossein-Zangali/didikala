@@ -80,7 +80,7 @@ include '../app/views/inc/header.php';
                                                 </a>
                                                 <div class="product-card-body">
                                                     <h5 class="product-title">
-                                                        <a href="/product/detail/<?= $product->id ?>"><?= mb_substr($product->title, 0, 40) . '...' ?></a>
+                                                        <a href="/product/detail/<?= $product->id ?>"><?= mb_substr($product->title, 0, 35) . '...' ?></a>
                                                     </h5>
                                                     <a class="product-meta" href="/product/detail/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
                                                     <?php if ($product->getProfitPercent($product->id) > 0):?>
@@ -158,7 +158,7 @@ include '../app/views/inc/header.php';
                                         </a>
                                         <div class="product-card-body">
                                             <h5 class="product-title">
-                                                <a href="/product/detail/<?= $product->id ?>"><?= mb_substr($product->title, 0, 40) . '...' ?></a>
+                                                <a href="/product/detail/<?= $product->id ?>"><?= mb_substr($product->title, 0, 35) . '...' ?></a>
                                             </h5>
                                             <a class="product-meta" href="/product/detail/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
                                             <?php if ($product->getProfitPercent($product->id) > 0):?>
@@ -208,7 +208,7 @@ include '../app/views/inc/header.php';
                                         </a>
                                         <div class="product-card-body">
                                             <h5 class="product-title">
-                                                <a href="/product/detail/<?= $product->id ?>"><?= mb_substr($product->title, 0, 40) . '...' ?></a>
+                                                <a href="/product/detail/<?= $product->id ?>"><?= mb_substr($product->title, 0, 35) . '...' ?></a>
                                             </h5>
                                             <a class="product-meta" href="/product/detail/<?= $product->id ?>"><?= Category::getCategoryById($product->category_id)->title?></a>
                                             <?php if ($product->getProfitPercent($product->id) > 0):?>
